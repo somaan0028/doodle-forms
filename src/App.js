@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+import EditableForm from './EditableForm';
 
 class App extends Component {
-  state = {
-    name: "Imran",
-  }
   render() {
     return (
       <div className="App">
-        <h1>Welcome {this.state.name}</h1>
+        <EditableForm />
       </div>
     );
   }
