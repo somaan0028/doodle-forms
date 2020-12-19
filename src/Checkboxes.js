@@ -8,7 +8,7 @@ const Checkboxes = ({question, values, id}) => {
                 values.map((value, index) => {
                     return(
                         <div key={index}>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" value={value} />
+                            <input type="checkbox" id="vehicle1" name={`question${id+1}`} value={value} />
                             <label htmlFor={value}>{value}</label>
                         </div>
                     )

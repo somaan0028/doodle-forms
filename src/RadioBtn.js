@@ -8,7 +8,7 @@ const RadioBtn = ({question, values, id}) => {
                 values.map((value, index) => {
                     return(
                         <div key={index}>
-                            <input type="radio" id="male" name="gender" value={value} />
+                            <input type="radio" id="male" name={`question${id+1}`} value={value} />
                             <label htmlFor={value}>{value}</label> 
                         </div>
                     )
