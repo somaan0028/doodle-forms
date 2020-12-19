@@ -5,9 +5,9 @@ const RadioBtn = ({question, values, id}) => {
         <div className="radio-btn-element form-element" key={id}>
             <label>{question}</label>
             {
-                values.map(value => {
+                values.map((value, index) => {
                     return(
-                        <div key={value}>
+                        <div key={index}>
                             <input type="radio" id="male" name="gender" value={value} />
                             <label htmlFor={value}>{value}</label> 
                         </div>
