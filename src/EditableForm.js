@@ -104,7 +104,7 @@ class EditableForm extends Component {
 			<AddFormElements addElement={(element)=> this.addElement(element)}/>
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 			{ this.state.generatedElementsList }
-			<button onClick={saveForm}>Done</button>
+			<button onClick={this.saveForm}>Done</button>
 		</div>
 		);
 	}
