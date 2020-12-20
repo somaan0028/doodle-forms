@@ -16,6 +16,7 @@ class TextareaInputDetails extends Component {
     }
     console.log("Create Element Ran");
     this.props.sendElement(element);
+    this.props.closeDetailsPanel(e);
   }
 
   handleQuestion = (e) => {

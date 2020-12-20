@@ -94,12 +94,17 @@ class EditableForm extends Component {
 		
 	}
 
+	saveForm = () => {
+		var formElements = this.state.elements;
+		// Use axios to send formElemets to server
+	}
 	render() {
 		return (
 		<div className="editable-form">
 			<AddFormElements addElement={(element)=> this.addElement(element)}/>
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 			{ this.state.generatedElementsList }
+			<button onClick={saveForm}>Done</button>
 		</div>
 		);
 	}

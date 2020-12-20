@@ -15,6 +15,7 @@ class SingleLineInputDetails extends Component {
     }
     console.log("Create Element Ran");
     this.props.sendElement(element);
+    this.props.closeDetailsPanel(e);
   }
 
   handleQuestion = (e) => {
@@ -30,6 +31,7 @@ class SingleLineInputDetails extends Component {
               <input type="text" id="question" placeholder="Enter the Question" onChange={this.handleQuestion}/>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} >Add</button>
+                {/* <input onSubmit={this.createElement} type="submit" value="Adddd" /> */}
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>
               </div>
           </form>
