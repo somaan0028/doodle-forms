@@ -4,11 +4,15 @@ var cors = require("cors");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const authRoutes = require('./routes/authRoutes');
+const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 //for static files
 app.use(express.static('public'));
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //Middleware for parsing post requests
 app.use(express.urlencoded({ extended: true }));
@@ -25,6 +29,9 @@ mongoose.set('useFindAndModify', false);
 //so we can use the user model
 const Form = require('./models/form-model');
 
+app.get('*', checkUser);
+app.post('*', checkUser);
+
 // create home route
 app.get('/', (req, res) => {
     res.send('home');
@@ -33,7 +40,10 @@ app.get('/', (req, res) => {
 // test route
 app.post('/savedata', (req, res) => {
     console.log("API has been hit - POST");
-    console.log(req.body);
+    // console.log(req);
+    console.log(req.user);
+    // console.log(req.locals.user);
+    // console.log(req.body);
 
     Form.findOne({_id: req.body.formID})
     .then((currentForm) => {
@@ -45,7 +55,7 @@ app.post('/savedata', (req, res) => {
             console.log("Nooooo.")
             
             new Form({
-                userID: req.body.userID,
+                userID: req.user._id,
                 formElements: req.body.formElements,
                 responses: []
                 
@@ -69,6 +79,8 @@ app.post('/savedata', (req, res) => {
         console.log(error);
         res.send("Error Occured");
     })
+
+    // ==========================================================================
 
     //         // If the form is new, create a new form in the DB
             // new Form({
@@ -95,6 +107,8 @@ app.get('/test', (req, res) => {
     console.log(req);
     res.send('Backend successfully connected');
 });
+
+app.use(authRoutes);
 
 app.listen(5000, () => {
     console.log('app now listening for requests on port 5000');
