@@ -4,7 +4,7 @@ class TextareaInputDetails extends Component {
 
   state = {
     question: null,
-    maxLimit: null
+    maxlength: null
   }
 
   createElement = (e) => {
@@ -13,6 +13,7 @@ class TextareaInputDetails extends Component {
     var element = {
       type: "Textarea",
       question: this.state.question,
+      maxlength: this.state.maxlength,
     }
     console.log("Create Element Ran");
     this.props.sendElement(element);
@@ -30,7 +31,7 @@ class TextareaInputDetails extends Component {
       <div className="detailsPanel textarea-input-details">
           <form className="detailsForm">
               <input type="text" id="question" placeholder="Enter the Question" onChange={this.handleQuestion}/>
-              <input type="number" id="maxLimit" placeholder="Enter Max Limit" onChange={this.handleQuestion}/>
+              <input type="number" id="maxlength" placeholder="Enter Max Limit" onChange={this.handleQuestion}/>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} >Add</button>
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>

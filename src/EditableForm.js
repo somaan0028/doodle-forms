@@ -97,9 +97,28 @@ class EditableForm extends Component {
 	}
 
 	saveForm = () => {
-		var formElements = this.state.elements;
-		// Use axios to send formElemets to server
-		
+		axios({
+			method: 'post',
+			url: '/savedata',
+			data: {
+				userID: "dummyUserID",
+				formID: "111111111111111111111111",
+				formElements: this.state.elements
+			}
+		})
+		.then(function (response) {
+			console.log(response.data);
+		})
+		.catch(function (response) {
+			console.log("could not send date")
+		})
+	}
+	
+	hitBackend = () => {
+		axios.get('/test')
+		.then((response) => {
+		console.log(response.data)
+		})
 	}
 
 	render() {
@@ -109,6 +128,7 @@ class EditableForm extends Component {
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 			{ this.state.generatedElementsList }
 			<button onClick={this.saveForm}>Done</button>
+			<button onClick={this.hitBackend}>Test</button>
 		</div>
 		);
 	}
