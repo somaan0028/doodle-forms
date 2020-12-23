@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const User = require('./models/User');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 //for static files
@@ -37,75 +39,88 @@ app.get('/', (req, res) => {
     res.send('home');
 });
 
-// test route
-app.post('/savedata', (req, res) => {
+// saves data
+app.post('/updateform', (req, res) => {
     console.log("API has been hit - POST");
-    // console.log(req);
     console.log(req.user);
-    // console.log(req.locals.user);
-    // console.log(req.body);
 
+    Form.findOneAndUpdate({_id: req.body.formID}, {
+        formElements: req.body.formElements
+    }, {new: true})
+    .then((updatedForm)=>{
+        console.log("Form Updated");
+        res.send("Updated the form");
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+});
+
+// sends form back to front-end
+app.post('/getform', (req, res) => {
     Form.findOne({_id: req.body.formID})
-    .then((currentForm) => {
-        if(currentForm){
-            console.log("Found a matching form");
-            // If there is already a form with same formID, then update form
-            res.send("Form found with same id. It should be updated");
+    .then((form)=>{
+        console.log("Got the from");
+        if (form.userID == req.user._id) {
+            res.send(form);
         }else{
-            console.log("Nooooo.")
-            
-            new Form({
-                userID: req.user._id,
-                formElements: req.body.formElements,
-                responses: []
-                
-            }).save().then((newForm) => {
-                
-                // Once new form created, redirect user to login page.
-                console.log('created new Form: ', newForm);
-                // res.send("User added to DB");
-                // res.redirect(307, '/auth/locallogin');
-                res.send("New form created!")
-            })
-            .catch((error)=>{
-                console.log(error);
-            });
-
-            // res.send("Not found matching form");
+            res.send("Not authorized.");
         }
     })
-    .catch((error)=>{
-        console.log("Did not find matching form");
-        console.log(error);
-        res.send("Error Occured");
+    .catch((err)=>{
+        console.log(err);
     })
+});
 
-    // ==========================================================================
+app.post('/saveform', (req, res) => {
+    console.log("API has been hit - POST");
+    console.log(req.user);
 
-    //         // If the form is new, create a new form in the DB
-            // new Form({
-            //     userID: req.body.userID,
-            //     formElements: req.body.formElements,
-            //     responses: []
-                
-            // }).save().then((newForm) => {
-
-            //     // Once new form created, redirect user to login page.
-            //     console.log('created new Form: ', newForm);
-            //     // res.send("User added to DB");
-            //     // res.redirect(307, '/auth/locallogin');
-            //     res.send("New form created!")
-            // });
-    //     }
-    // });
-
-    // res.send('Data reached successfully');
+    new Form({
+        userID: req.user._id,
+        formElements: req.body.formElements,
+        responses: []
+        
+    }).save().then((newForm) => {
+        // Once new form created, redirect user to login page.
+        console.log('created new Form: ', newForm);
+        // res.send("User added to DB");
+        // res.redirect(307, '/auth/locallogin');
+        res.send({formID: newForm._id})
+    })
+    .catch((error)=>{
+        console.log(error);
+    });
 });
 
 app.get('/test', (req, res) => {
     console.log("API has been hit - GET");
     console.log(req);
     res.send('Backend successfully connected');
+});
+
+app.get('/authtest', (req, res) => {
+    console.log("Inside the authtest route");
+    const token = req.cookies.jwt;
+
+    // check json web token exists & is verified
+    if (token) {
+        jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+        if (err) {
+            console.log(err.message);
+            res.send(false);
+            // res.redirect('/login');
+        } else {
+            // console.log(decodedToken);
+            let user = User.findById(decodedToken.id);
+            // console.log(user);
+            res.send(true);
+            // next();
+        }});
+    } else {
+        res.send(false);
+        // res.redirect('/login');
+    }
 });
 
 app.use(authRoutes);

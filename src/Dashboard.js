@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import { AuthContext } from './AuthContext';
+import {NavLink} from 'react-router-dom';
 
 class Dashboard extends Component {
 
+  static contextType = AuthContext;
+
   state = {
-    abc: null,
+    dashboard: null,
   }
   componentDidMount(){
+    const { toggleAuth } = this.context;
+
+    toggleAuth()
 
   }
+
   render(){
     return (
       <div className="sign-up">
@@ -19,6 +27,7 @@ class Dashboard extends Component {
             <li><p>The Fourth Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
             <li><p>The Fifth Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
         </ul>
+        <NavLink to="/create">Create New Form</NavLink>
       </div>
     );
   }

@@ -8,43 +8,19 @@ import Textarea from './Textarea';
 import AddFormElements from './AddFormElements';
 import { AuthContext } from './AuthContext';
 
-class EditableForm extends Component {
+class CreateForm extends Component {
 
-	static contextType = AuthContext;
+    static contextType = AuthContext;
 
 	state = {
-		elements: [
-			// {
-			// 	type: "Single-line",
-			// 	question: "Whats your name?",
-			// },
-			// {
-			// 	type: "Single-line",
-			// 	question: "How are you?",
-			// },
-			// {
-			// 	type: "Radio",
-			// 	question: "What is 2+2",
-			// 	values: [5, 6, 7, 8],
-			// },
-			// {
-			// 	type: "Checkboxes",
-			// 	question: "Select the animals",
-			// 	values: ["Frog", "Table", "Cow", "Chips"],
-			// },
-			// {
-			// 	type: "Textarea",
-			// 	question: "Write a note on life...max limit is 25 words",
-			// 	maxlength: 200,
-			// },
-			// {
-			// 	type: "Checkboxes",
-			// 	question: "Earth is flat",
-			// 	values: ["True", "False"],
-			// }
-		],
+		elements: [],
 		generatedElementsList:[]
-	}
+    }
+    
+    componentDidMount(){
+        const { toggleAuth } = this.context;
+        toggleAuth();
+    }
 
 	generateElements = () => {
 		var elements = this.state.elements;
@@ -82,29 +58,10 @@ class EditableForm extends Component {
 		});
 		// console.log(generatedElements);
 	}
-
-	componentWillMount(){
-        const { toggleAuth } = this.context;
-        toggleAuth();
-	}
 	
 	componentDidMount(){
-		axios({
-			method: 'post',
-			url: '/getform',
-			data: {
-				formID:  window.location.pathname.substr(6)
-			}
-		})
-		.then((response) => {
-			console.log(response.data);
-			this.setState({
-				elements: response.data.formElements
-			}, ()=>{this.generateElements()})
-		})
-		.catch((response) => {
-			console.log("could not get form from /getform")
-		})
+		this.generateElements();
+		console.log(this.state.elements);
 	}
 
 	addElement = (element) => {
@@ -119,20 +76,22 @@ class EditableForm extends Component {
 		
 	}
 
-	updateForm = () => {
+	saveForm = () => {
 		axios({
 			method: 'post',
-			url: '/updateform',
+			url: '/saveform',
 			data: {
-				formID: window.location.pathname.substr(6),
 				formElements: this.state.elements
 			}
 		})
-		.then(function (response) {
-			console.log(response.data);
+		.then((response) => {
+            console.log(response.data.formID);
+            var redirectTo = "/edit/" + response.data.formID;
+            console.log("about to redirect")
+            this.props.history.push( redirectTo );
 		})
-		.catch(function (response) {
-			console.log("could not send date")
+		.catch((response) => {
+			console.log("could not send data to /saveform")
 		})
 	}
 	
@@ -149,11 +108,11 @@ class EditableForm extends Component {
 			<AddFormElements addElement={(element)=> this.addElement(element)}/>
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 			{ this.state.generatedElementsList }
-			<button onClick={this.updateForm}>Update</button>
+			<button onClick={this.saveForm}>Create</button>
 			<button onClick={this.hitBackend}>Test</button>
 		</div>
 		);
 	}
 }
 
-export default EditableForm;
+export default CreateForm;
