@@ -83,28 +83,40 @@ class EditableForm extends Component {
 		// console.log(generatedElements);
 	}
 
-	componentWillMount(){
-        const { toggleAuth } = this.context;
-        toggleAuth();
-	}
+	// componentWillMount(){
+    //     const { checkAuthAndReturnData } = this.context;
+    //     checkAuthAndReturnData('');
+	// }
 	
 	componentDidMount(){
-		axios({
-			method: 'post',
-			url: '/getform',
-			data: {
-				formID:  window.location.pathname.substr(6)
-			}
-		})
-		.then((response) => {
-			console.log(response.data);
+
+		const { checkAuthAndReturnData } = this.context;
+		checkAuthAndReturnData('SingleForm', window.location.pathname.substr(6))
+		.then((result)=>{
+			console.log(result);
 			this.setState({
-				elements: response.data.formElements
+				elements: result.formElements
 			}, ()=>{this.generateElements()})
 		})
 		.catch((response) => {
 			console.log("could not get form from /getform")
 		})
+		// axios({
+		// 	method: 'post',
+		// 	url: '/getform',
+		// 	data: {
+		// 		formID:  window.location.pathname.substr(6)
+		// 	}
+		// })
+		// .then((response) => {
+		// 	console.log(response.data);
+		// 	this.setState({
+		// 		elements: response.data.formElements
+		// 	}, ()=>{this.generateElements()})
+		// })
+		// .catch((response) => {
+		// 	console.log("could not get form from /getform")
+		// })
 	}
 
 	addElement = (element) => {
@@ -150,7 +162,7 @@ class EditableForm extends Component {
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 			{ this.state.generatedElementsList }
 			<button onClick={this.updateForm}>Update</button>
-			<button onClick={this.hitBackend}>Test</button>
+			{/* <button onClick={this.hitBackend}>Test</button> */}
 		</div>
 		);
 	}

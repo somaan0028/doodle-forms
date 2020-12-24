@@ -6,21 +6,13 @@ import RadioBtn from './RadioBtn';
 import Checkboxes from './Checkboxes';
 import Textarea from './Textarea';
 import AddFormElements from './AddFormElements';
-import { AuthContext } from './AuthContext';
 
-class CreateForm extends Component {
-
-    static contextType = AuthContext;
+class EditableForm extends Component {
 
 	state = {
-		formName: null,
 		elements: [],
 		generatedElementsList:[]
-    }
-    
-    // componentWillMount(){
-        
-    // }
+	}
 
 	generateElements = () => {
 		var elements = this.state.elements;
@@ -56,66 +48,60 @@ class CreateForm extends Component {
 		this.setState({
 			generatedElementsList: generatedElements
 		});
-		// console.log(generatedElements);
 	}
 	
 	componentDidMount(){
-		const { checkAuthAndReturnData } = this.context;
-        checkAuthAndReturnData();
-		console.log(this.state.elements);
-	}
-
-	addElement = (element) => {
-		var updatedElementsList = [...this.state.elements, element]
-		this.setState({
-			elements: updatedElementsList
-		}, ()=>{
-			this.generateElements();
-			console.log(this.state.elements);
-			console.log("Element should be added");
-		});
-		
-	}
-
-	saveForm = () => {
 		axios({
 			method: 'post',
-			url: '/saveform',
+			url: '/getform',
 			data: {
-				formName: this.state.formName,
-				formElements: this.state.elements
+				formID:  window.location.pathname.substr(6)
 			}
 		})
 		.then((response) => {
-            console.log(response.data.formID);
-            var redirectTo = "/edit/" + response.data.formID;
-            console.log("about to redirect")
-            this.props.history.push( redirectTo );
+			console.log(response.data);
+			this.setState({
+				elements: response.data.formElements
+			}, ()=>{this.generateElements()})
 		})
 		.catch((response) => {
-			console.log("could not send data to /saveform")
+			console.log("could not get form from /getform")
 		})
 	}
 	
-	hitBackend = () => {
-		axios.get('/test')
+	submitForm = () => {
+
+        axios({
+			method: 'post',
+			url: '/submitform',
+			// data: {
+			// 	response: ,
+			// }
+		})
 		.then((response) => {
-		console.log(response.data)
+			console.log("Form Submitted");
+		})
+		.catch((response) => {
+			console.log("could not submit form");
 		})
 	}
+
+    // collectResponse
 
 	render() {
 		return (
 		<div className="editable-form">
-			<AddFormElements addElement={(element)=> this.addElement(element)}/>
-			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
-			<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" />
-			{ this.state.generatedElementsList }
-			<button onClick={this.saveForm}>Create</button>
-			{/* <button onClick={this.hitBackend}>Test</button> */}
+            <form method='POST' action='/submitform'>
+                {/* <AddFormElements addElement={(element)=> this.addElement(element)}/> */}
+                {/* <button onClick={this.generateElements} >Generate Elements</button> */}
+                { this.state.generatedElementsList }
+                <input type="text" name="formID" value={window.location.pathname.substr(6)} className="hidden" required/>
+                <button>Submit</button>
+                {/* <button onClick={this.hitBackend}>Test</button> */}
+            </form>
 		</div>
 		);
 	}
 }
 
-export default CreateForm;
+export default EditableForm;

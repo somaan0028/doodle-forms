@@ -8,6 +8,8 @@ import Signup from './Signup.js';
 import Login from './Login.js';
 import Dashboard from './Dashboard.js';
 import AuthContextProvider from './AuthContext';
+import Responses from './Responses';
+import FormToFill from './FormToFill';
 
 class App extends Component {
   render() {
@@ -22,6 +24,8 @@ class App extends Component {
             <Route exact path='/Dashboard' component={Dashboard} />
             <Route path='/create' component={CreateForm} />
             <Route path='/edit/:form_id' component={EditableForm} />
+            <Route path='/responses/:form_id' component={Responses} />
+            <Route path='/form/:form_id' component={FormToFill} />
             {/* <EditableForm /> */}
           </div>
         </AuthContextProvider>

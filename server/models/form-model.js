@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const formSchema = new Schema({
+    formName: String,
     userID: String,
     formElements: Array,
     responses: Array

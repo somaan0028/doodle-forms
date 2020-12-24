@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
     res.send('home');
 });
 
-// saves data
+// updates form
 app.post('/updateform', (req, res) => {
     console.log("API has been hit - POST");
     console.log(req.user);
@@ -58,17 +58,32 @@ app.post('/updateform', (req, res) => {
 
 // sends form back to front-end
 app.post('/getform', (req, res) => {
-    Form.findOne({_id: req.body.formID})
+    Form.findOne({_id: req.body.formID}, {formName: 1, formElements: 1})
     .then((form)=>{
         console.log("Got the from");
-        if (form.userID == req.user._id) {
-            res.send(form);
-        }else{
-            res.send("Not authorized.");
-        }
+        res.send(form);
     })
     .catch((err)=>{
         console.log(err);
+    })
+});
+
+app.post('/submitform', (req, res) => {
+    console.log("Form ready to be submitted");
+    var response = req.body;
+    var formID = response.formID;
+    delete response.formID;
+    console.log(response);
+    Form.findOneAndUpdate({_id: formID},{ 
+        "$push": { "responses": response } 
+    }, {new: true})
+    .then((updatedForm)=>{
+        console.log("Form Updated");
+        res.send("Form Submitted");
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send("Failed to update the form");
     })
 });
 
@@ -77,6 +92,7 @@ app.post('/saveform', (req, res) => {
     console.log(req.user);
 
     new Form({
+        formName: req.body.formName,
         userID: req.user._id,
         formElements: req.body.formElements,
         responses: []
@@ -93,14 +109,31 @@ app.post('/saveform', (req, res) => {
     });
 });
 
-app.get('/test', (req, res) => {
-    console.log("API has been hit - GET");
-    console.log(req);
-    res.send('Backend successfully connected');
-});
+// app.get('/authtest', (req, res) => {
+//     console.log("Inside the authtest route");
+//     const token = req.cookies.jwt;
 
-app.get('/authtest', (req, res) => {
-    console.log("Inside the authtest route");
+//     // check json web token exists & is verified
+//     if (token) {
+//         jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+//         if (err) {
+//             console.log(err.message);
+//             res.send(false);
+//             // res.redirect('/login');
+//         } else {
+//             // console.log(decodedToken);
+//             let user = User.findById(decodedToken.id);
+//             // console.log(user);
+//             res.send(true);
+//             // next();
+//         }});
+//     } else {
+//         res.send(false);
+//         // res.redirect('/login');
+//     }
+// });
+
+app.post('/authtest', (req, res)=>{
     const token = req.cookies.jwt;
 
     // check json web token exists & is verified
@@ -114,8 +147,51 @@ app.get('/authtest', (req, res) => {
             // console.log(decodedToken);
             let user = User.findById(decodedToken.id);
             // console.log(user);
-            res.send(true);
-            // next();
+            
+            // User logged in therefore send what was asked for.
+            if (req.body.requiredData == 'AllCreatedForms') {
+                console.log("now have to return all created forms");
+
+                Form.find({userID: req.user._id}, {formName: 1, _id: 1})
+                .then((forms)=>{
+                    res.send(forms);
+                })
+            }else if (req.body.requiredData == 'SingleForm') {
+                console.log("Now have to send data for " + req.body.formID);
+                Form.findOne({_id: req.body.formID})
+                .then((form)=>{
+                    console.log("Got the from");
+                    if (form.userID == req.user._id) {
+                        console.log("form sent!!!");
+                        res.send(form);
+                    }else{
+                        console.log("Not authorized!!");
+                        res.send("Not authorized.");
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+                // res.send(true);
+            }else if(req.body.requiredData == 'AllResponses'){
+                Form.findOne({_id: req.body.formID}, {formName: 1, responses: 1, userID: 1})
+                .then((form)=>{
+                    console.log("Got the from");
+                    if (form.userID == req.user._id) {
+                        console.log("Responses sent!!!");
+                        res.send(form);
+                    }else{
+                        console.log("Not authorized!!");
+                        res.send("Not authorized.");
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+            }else{
+                res.send(true);
+            }
+            
         }});
     } else {
         res.send(false);
