@@ -3,9 +3,21 @@ import React, { Component } from 'react';
 class SingleLineInputDetails extends Component {
 
   state = {
-    question: null,
+    question: '',
+    action: 'Add'
   }
-
+  componentDidMount(){
+    if (this.props.defaultValues) {
+      console.log("Have Default Values");
+      console.log(this.props.defaultValues);
+      this.setState({
+        question: this.props.defaultValues.question,
+        action: 'Save'
+      })
+    }else{
+      console.log("Don't have default values")
+    }
+  }
   createElement = (e) => {
     e.preventDefault();
     
@@ -14,7 +26,7 @@ class SingleLineInputDetails extends Component {
       question: this.state.question,
     }
     console.log("Create Element Ran");
-    this.props.sendElement(element);
+    this.props.sendElement(element, e.target.id);
     this.props.closeDetailsPanel(e);
   }
 
@@ -28,9 +40,9 @@ class SingleLineInputDetails extends Component {
     return (
       <div className="detailsPanel single-line-input-details">
           <form className="detailsForm" onSubmit={(e)=>{e.preventDefault()}}>
-              <input type="text" id="question" placeholder="Enter the Question" onChange={this.handleQuestion}/>
+              <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion}  />
               <div className="details-panel-btns">
-                <button onClick={this.createElement} >Add</button>
+                <button onClick={this.createElement} id={this.props.elementIndex} >{this.state.action}</button>
                 {/* <input onSubmit={this.createElement} type="submit" value="Adddd" /> */}
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>
               </div>

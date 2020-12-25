@@ -45,7 +45,8 @@ app.post('/updateform', (req, res) => {
     console.log(req.user);
 
     Form.findOneAndUpdate({_id: req.body.formID}, {
-        formElements: req.body.formElements
+        formElements: req.body.formElements,
+        formName: req.body.formName
     }, {new: true})
     .then((updatedForm)=>{
         console.log("Form Updated");
@@ -108,30 +109,6 @@ app.post('/saveform', (req, res) => {
         console.log(error);
     });
 });
-
-// app.get('/authtest', (req, res) => {
-//     console.log("Inside the authtest route");
-//     const token = req.cookies.jwt;
-
-//     // check json web token exists & is verified
-//     if (token) {
-//         jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
-//         if (err) {
-//             console.log(err.message);
-//             res.send(false);
-//             // res.redirect('/login');
-//         } else {
-//             // console.log(decodedToken);
-//             let user = User.findById(decodedToken.id);
-//             // console.log(user);
-//             res.send(true);
-//             // next();
-//         }});
-//     } else {
-//         res.send(false);
-//         // res.redirect('/login');
-//     }
-// });
 
 app.post('/authtest', (req, res)=>{
     const token = req.cookies.jwt;
