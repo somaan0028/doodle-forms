@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import CreateForm from './CreateForm';
-import EditableForm from './EditableForm';
+import CreateForm from './Dashboard/CreateForm';
+import EditableForm from './Dashboard/EditableForm';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Navbar from './Navbar.js';
-import Home from './Home.js';
-import Signup from './Signup.js';
-import Login from './Login.js';
-import Dashboard from './Dashboard.js';
-import AuthContextProvider from './AuthContext';
-import Responses from './Responses';
-import FormToFill from './FormToFill';
+import Navbar from './Home/Navbar.js';
+import Home from './Home/Home.js';
+import Signup from './auth/Signup.js';
+import Login from './auth/Login.js';
+import Dashboard from './Dashboard/Dashboard.js';
+import AuthContextProvider from './Context/AuthContext';
+import Responses from './Responses/Responses';
+import FormToFill from './Responses/FormToFill';
 
 class App extends Component {
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../Context/AuthContext';
 import {NavLink} from 'react-router-dom';
 import SingleResponse from './SingleResponse';
 

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import SingleLine from './SingleLine';
-import RadioBtn from './RadioBtn';
-import Checkboxes from './Checkboxes';
-import Textarea from './Textarea';
-import AddFormElements from './AddFormElements';
+import SingleLine from '../Form-Elements/SingleLine';
+import RadioBtn from '../Form-Elements/RadioBtn';
+import Checkboxes from '../Form-Elements/Checkboxes';
+import Textarea from '../Form-Elements/Textarea';
 
 class EditableForm extends Component {
 

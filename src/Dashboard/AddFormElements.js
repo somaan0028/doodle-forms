@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import SingleLineInputDetails from './SingleLineInputDetails';
-import TextareaInputDetails from './TextareaInputDetails';
-import RadioBtnDetailsPanel from './RadioBtnDetailsPanel';
-import CheckboxesDetailsPanel from './CheckboxesDetailsPanel';
+import SingleLineInputDetails from '../Detail-Panels/SingleLineInputDetails';
+import TextareaInputDetails from '../Detail-Panels/TextareaInputDetails';
+import RadioBtnDetailsPanel from '../Detail-Panels/RadioBtnDetailsPanel';
+import CheckboxesDetailsPanel from '../Detail-Panels/CheckboxesDetailsPanel';
 
 class addFormElement extends Component {
 	state = {

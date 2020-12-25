@@ -1,26 +1,50 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import SingleLine from './SingleLine';
-import RadioBtn from './RadioBtn';
-import Checkboxes from './Checkboxes';
-import Textarea from './Textarea';
+import SingleLine from '../Form-Elements/SingleLine';
+import RadioBtn from '../Form-Elements/RadioBtn';
+import Checkboxes from '../Form-Elements/Checkboxes';
+import Textarea from '../Form-Elements/Textarea';
 import AddFormElements from './AddFormElements';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../Context/AuthContext';
 
-class CreateForm extends Component {
+class EditableForm extends Component {
 
-    static contextType = AuthContext;
+	static contextType = AuthContext;
 
 	state = {
-		formName: null,
-		elements: [],
+		elements: [
+			// {
+			// 	type: "Single-line",
+			// 	question: "Whats your name?",
+			// },
+			// {
+			// 	type: "Single-line",
+			// 	question: "How are you?",
+			// },
+			// {
+			// 	type: "Radio",
+			// 	question: "What is 2+2",
+			// 	values: [5, 6, 7, 8],
+			// },
+			// {
+			// 	type: "Checkboxes",
+			// 	question: "Select the animals",
+			// 	values: ["Frog", "Table", "Cow", "Chips"],
+			// },
+			// {
+			// 	type: "Textarea",
+			// 	question: "Write a note on life...max limit is 25 words",
+			// 	maxlength: 200,
+			// },
+			// {
+			// 	type: "Checkboxes",
+			// 	question: "Earth is flat",
+			// 	values: ["True", "False"],
+			// }
+		],
 		generatedElementsList:[]
-    }
-    
-    // componentWillMount(){
-        
-    // }
+	}
 
 	generateElements = () => {
 		var elements = this.state.elements;
@@ -58,11 +82,41 @@ class CreateForm extends Component {
 		});
 		// console.log(generatedElements);
 	}
+
+	// componentWillMount(){
+    //     const { checkAuthAndReturnData } = this.context;
+    //     checkAuthAndReturnData('');
+	// }
 	
 	componentDidMount(){
+
 		const { checkAuthAndReturnData } = this.context;
-        checkAuthAndReturnData();
-		console.log(this.state.elements);
+		checkAuthAndReturnData('SingleForm', window.location.pathname.substr(6))
+		.then((result)=>{
+			console.log(result);
+			this.setState({
+				elements: result.formElements
+			}, ()=>{this.generateElements()})
+		})
+		.catch((response) => {
+			console.log("could not get form from /getform")
+		})
+		// axios({
+		// 	method: 'post',
+		// 	url: '/getform',
+		// 	data: {
+		// 		formID:  window.location.pathname.substr(6)
+		// 	}
+		// })
+		// .then((response) => {
+		// 	console.log(response.data);
+		// 	this.setState({
+		// 		elements: response.data.formElements
+		// 	}, ()=>{this.generateElements()})
+		// })
+		// .catch((response) => {
+		// 	console.log("could not get form from /getform")
+		// })
 	}
 
 	addElement = (element) => {
@@ -77,23 +131,20 @@ class CreateForm extends Component {
 		
 	}
 
-	saveForm = () => {
+	updateForm = () => {
 		axios({
 			method: 'post',
-			url: '/saveform',
+			url: '/updateform',
 			data: {
-				formName: this.state.formName,
+				formID: window.location.pathname.substr(6),
 				formElements: this.state.elements
 			}
 		})
-		.then((response) => {
-            console.log(response.data.formID);
-            var redirectTo = "/edit/" + response.data.formID;
-            console.log("about to redirect")
-            this.props.history.push( redirectTo );
+		.then(function (response) {
+			console.log(response.data);
 		})
-		.catch((response) => {
-			console.log("could not send data to /saveform")
+		.catch(function (response) {
+			console.log("could not send date")
 		})
 	}
 	
@@ -109,13 +160,12 @@ class CreateForm extends Component {
 		<div className="editable-form">
 			<AddFormElements addElement={(element)=> this.addElement(element)}/>
 			{/* <button onClick={this.generateElements} >Generate Elements</button> */}
-			<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" />
 			{ this.state.generatedElementsList }
-			<button onClick={this.saveForm}>Create</button>
+			<button onClick={this.updateForm}>Update</button>
 			{/* <button onClick={this.hitBackend}>Test</button> */}
 		</div>
 		);
 	}
 }
 
-export default CreateForm;
+export default EditableForm;
