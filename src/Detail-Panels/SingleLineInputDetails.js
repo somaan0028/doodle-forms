@@ -12,7 +12,7 @@ class SingleLineInputDetails extends Component {
       console.log(this.props.defaultValues);
       this.setState({
         question: this.props.defaultValues.question,
-        action: 'Save'
+        action: 'Done'
       })
     }else{
       console.log("Don't have default values")

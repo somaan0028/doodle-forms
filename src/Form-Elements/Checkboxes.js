@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Checkboxes = ({question, values, id, editElement}) => {
+const Checkboxes = ({question, values, id, editElement, deleteElement}) => {
   return (
         <div className="checkboxes-element form-element" key={id}>
             <label>{question}</label>
@@ -15,6 +15,7 @@ const Checkboxes = ({question, values, id, editElement}) => {
                 })
             }
             <button onClick={editElement} id={id}>Edit</button>
+            <button onClick={deleteElement} id={id}>Delete</button>
         </div>
     );
 }

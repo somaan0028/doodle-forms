@@ -55,19 +55,19 @@ class EditableForm extends Component {
 			switch(elementType) {
 				case "Single-line":
 					console.log("Its a single line element");
-					return <SingleLine question={element.question} id={index} key={index} editElement={this.editElement}/>;
+					return <SingleLine question={element.question} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Textarea":
 					console.log("Its a single line element");
-					return <Textarea question={element.question} maxlength={element.maxlength} id={index} key={index} editElement={this.editElement}/>;
+					return <Textarea question={element.question} maxlength={element.maxlength} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Radio":
 					console.log("Its a Radio element");
-					return <RadioBtn question={element.question} values={element.values} id={index} key={index} editElement={this.editElement}/>;
+					return <RadioBtn question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Checkboxes":
 					console.log("Its a Checkbox element");
-					return <Checkboxes question={element.question} values={element.values} id={index} key={index} editElement={this.editElement}/>;
+					return <Checkboxes question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				default:
 					console.log("No element");
@@ -180,6 +180,19 @@ class EditableForm extends Component {
 		this.setState({
 			detailsPanel: null
 		})
+	}
+
+	deleteElement = (e) => {
+		var elementsToUpdate = this.state.elements;
+		console.log("delete index: " + e.target.id)
+		console.log(elementsToUpdate);
+		elementsToUpdate.splice(e.target.id, 1);
+		console.log(elementsToUpdate);
+		this.setState({
+			elements: elementsToUpdate
+		}, ()=>{
+			this.generateElements();
+		});
 	}
 
 	render() {

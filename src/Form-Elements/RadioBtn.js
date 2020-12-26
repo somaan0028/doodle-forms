@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RadioBtn = ({question, values, id, editElement}) => {
+const RadioBtn = ({question, values, id, editElement, deleteElement}) => {
   return (
         <div className="radio-btn-element form-element" key={id}>
             <label>{question}</label>
@@ -15,6 +15,7 @@ const RadioBtn = ({question, values, id, editElement}) => {
                 })
             }
             <button onClick={editElement} id={id}>Edit</button>
+            <button onClick={deleteElement} id={id}>Delete</button>
         </div>
     );
 }
