@@ -55,12 +55,12 @@ class Signup extends Component {
             <h2>Sign up</h2>
             <p>Please fill in this form to create an account.</p>
             <hr/>
-            <label for="email">Email</label>
+            <label htmlFor="email">Email</label>
             <input type="text" name="email" required />
-            <div class="email error"></div>
-            <label for="password">Password</label>
+            <div className="email error"></div>
+            <label htmlFor="password">Password</label>
             <input type="password" name="password" required />
-            <div class="password error"></div>
+            <div className="password error"></div>
             <button>Sign up</button>
         </form>
       </div>

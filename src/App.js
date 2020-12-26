@@ -11,6 +11,8 @@ import AuthContextProvider from './Context/AuthContext';
 import Responses from './Responses/Responses';
 import FormToFill from './Responses/FormToFill';
 
+import SubmissionSuccess from './Responses/SubmissionSuccess'
+
 class App extends Component {
   render() {
     return (
@@ -26,6 +28,7 @@ class App extends Component {
             <Route path='/edit/:form_id' component={EditableForm} />
             <Route path='/responses/:form_id' component={Responses} />
             <Route path='/form/:form_id' component={FormToFill} />
+            <Route path='/formsubmitted' component={SubmissionSuccess} />
             {/* <EditableForm /> */}
           </div>
         </AuthContextProvider>

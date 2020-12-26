@@ -80,7 +80,8 @@ app.post('/submitform', (req, res) => {
     }, {new: true})
     .then((updatedForm)=>{
         console.log("Form Updated");
-        res.send("Form Submitted");
+        // res.send("Form Submitted");
+        res.redirect('/formsubmitted');
     })
     .catch((err)=>{
         console.log(err);
