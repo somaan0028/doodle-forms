@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const authRoutes = require('./routes/authRoutes');
+const formRoutes = require('./routes/formRoutes');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
@@ -37,78 +38,6 @@ app.post('*', checkUser);
 // create home route
 app.get('/', (req, res) => {
     res.send('home');
-});
-
-// updates form
-app.post('/updateform', (req, res) => {
-    console.log("API has been hit - POST");
-    console.log(req.user);
-
-    Form.findOneAndUpdate({_id: req.body.formID}, {
-        formElements: req.body.formElements,
-        formName: req.body.formName
-    }, {new: true})
-    .then((updatedForm)=>{
-        console.log("Form Updated");
-        res.send("Updated the form");
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-});
-
-// sends form back to front-end
-app.post('/getform', (req, res) => {
-    Form.findOne({_id: req.body.formID}, {formName: 1, formElements: 1})
-    .then((form)=>{
-        console.log("Got the from");
-        res.send(form);
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-});
-
-app.post('/submitform', (req, res) => {
-    console.log("Form ready to be submitted");
-    var response = req.body;
-    var formID = response.formID;
-    delete response.formID;
-    console.log(response);
-    Form.findOneAndUpdate({_id: formID},{ 
-        "$push": { "responses": response } 
-    }, {new: true})
-    .then((updatedForm)=>{
-        console.log("Form Updated");
-        // res.send("Form Submitted");
-        res.redirect('/formsubmitted');
-    })
-    .catch((err)=>{
-        console.log(err);
-        res.send("Failed to update the form");
-    })
-});
-
-app.post('/saveform', (req, res) => {
-    console.log("API has been hit - POST");
-    console.log(req.user);
-
-    new Form({
-        formName: req.body.formName,
-        userID: req.user._id,
-        formElements: req.body.formElements,
-        responses: []
-        
-    }).save().then((newForm) => {
-        // Once new form created, redirect user to login page.
-        console.log('created new Form: ', newForm);
-        // res.send("User added to DB");
-        // res.redirect(307, '/auth/locallogin');
-        res.send({formID: newForm._id})
-    })
-    .catch((error)=>{
-        console.log(error);
-    });
 });
 
 app.post('/authtest', (req, res)=>{
@@ -178,6 +107,7 @@ app.post('/authtest', (req, res)=>{
 });
 
 app.use(authRoutes);
+app.use(formRoutes);
 
 app.listen(5000, () => {
     console.log('app now listening for requests on port 5000');

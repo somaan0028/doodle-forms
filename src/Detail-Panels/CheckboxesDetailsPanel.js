@@ -6,7 +6,7 @@ class CheckboxesDetailsPanel extends Component {
     numberOfOptionValues: 1,
     optionValues: [],
     question: '',
-    values: [],
+    values: [""],
     action: 'Add'
   }
 
@@ -25,7 +25,7 @@ class CheckboxesDetailsPanel extends Component {
       console.log("Don't have default values");
       this.setState({
         optionValues: [
-            <input type="text" id="option1" key="1" onChange={this.handleOptionValues} placeholder="Enter an Option" />
+            <input type="text" id="option1" key="1" value={this.state.values[0]} onChange={this.handleOptionValues} placeholder="Enter an Option" />
         ],
         values: [""]
       });
@@ -34,7 +34,7 @@ class CheckboxesDetailsPanel extends Component {
   }
 
   generateElements = () => {
-    console.log("Have Default Values");
+    console.log("generating elements");
     console.log(this.props.defaultValues);
     var optionValues;
 
@@ -81,16 +81,31 @@ class CheckboxesDetailsPanel extends Component {
     })
   }
 
+  // addOptionValue = (e) => {
+  //   e.preventDefault();
+  //   var key = this.state.numberOfOptionValues + 1;
+  //   var optionValues = [...this.state.optionValues,
+  //       <input type="text" id={`option${key}`} key={key} onChange={this.handleOptionValues} placeholder="Enter an Option" />
+  //   ]
+  //   this.setState({
+  //       numberOfOptionValues: key,
+  //       optionValues: optionValues,
+  //       values: [...this.state.values, ""]
+  //   });
+  // }
   addOptionValue = (e) => {
     e.preventDefault();
     var key = this.state.numberOfOptionValues + 1;
-    var optionValues = [...this.state.optionValues,
-        <input type="text" id={`option${key}`} key={key} onChange={this.handleOptionValues} placeholder="Enter an Option" />
-    ]
     this.setState({
         numberOfOptionValues: key,
-        optionValues: optionValues,
         values: [...this.state.values, ""]
+    }, ()=>{
+      var optionValues = [...this.state.optionValues,
+          <input type="text" id={`option${key}`} key={key} value={this.state.values[key-1]} onChange={this.handleOptionValues} placeholder="Enter an Option" />
+      ]
+      this.setState({
+        optionValues: optionValues,
+      })
     });
   }
 
