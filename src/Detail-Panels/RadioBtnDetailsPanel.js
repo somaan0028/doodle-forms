@@ -7,7 +7,8 @@ class RadioBtnDetailsPanel extends Component {
     optionValues: [],
     question: '',
     values: [""],
-    action: 'Add'
+    action: 'Add',
+    emptyFieldError: ''
   }
 
   componentDidMount(){
@@ -55,9 +56,26 @@ class RadioBtnDetailsPanel extends Component {
       question: this.state.question,
       values: this.state.values
     }
-    console.log("Create Element Ran");
-    this.props.sendElement(element, e.target.id);
-    this.props.closeDetailsPanel(e);
+
+    var valueIsEmpty = element.values.includes("");
+    console.log("Value of valueIsEmpty: " + valueIsEmpty);
+
+    if(element.question === '' || valueIsEmpty){
+      console.log("Empty field");
+      this.setState({
+        emptyFieldError: 'Please fill the fields'
+      })
+    }else{
+      console.log("Create Element Ran");
+      this.setState({
+        emptyFieldError: ''
+      });
+      this.props.sendElement(element, e.target.id);
+      this.props.closeDetailsPanel(e);
+    }
+    // console.log("Create Element Ran");
+    // this.props.sendElement(element, e.target.id);
+    // this.props.closeDetailsPanel(e);
   }
 
   handleQuestion = (e) => {
@@ -80,19 +98,6 @@ class RadioBtnDetailsPanel extends Component {
       this.generateElements();
     });
   }
-
-  // addOptionValue = (e) => {
-  //   e.preventDefault();
-  //   var key = this.state.numberOfOptionValues + 1;
-  //   var optionValues = [...this.state.optionValues,
-  //       <input type="text" id={`option${key}`} key={key} onChange={this.handleOptionValues} placeholder="Enter an Option" />
-  //   ]
-  //   this.setState({
-  //       numberOfOptionValues: key,
-  //       optionValues: optionValues,
-  //       values: [...this.state.values, ""]
-  //   });
-  // }
 
   addOptionValue = (e) => {
     e.preventDefault();
@@ -132,11 +137,11 @@ class RadioBtnDetailsPanel extends Component {
     return (
       <div className="detailsPanel radio-btn-input-details">
           <form className="detailsForm">
-
               <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion}/>
               {this.state.optionValues}
               <button onClick={this.addOptionValue} >Add Option</button>
               <button onClick={this.removeOptionValue} >Remove Option</button>
+              <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex} >{this.state.action}</button>
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>

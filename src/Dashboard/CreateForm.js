@@ -19,10 +19,11 @@ class CreateForm extends Component {
     static contextType = AuthContext;
 
 	state = {
-		formName: null,
+		formName: "",
 		elements: [],
 		generatedElementsList:[],
-		detailsPanel: null
+		detailsPanel: null,
+		emptyFormNameError: ''
     }
 
 	generateElements = () => {
@@ -93,23 +94,33 @@ class CreateForm extends Component {
 	}
 
 	saveForm = () => {
-		axios({
-			method: 'post',
-			url: '/saveform',
-			data: {
-				formName: this.state.formName,
-				formElements: this.state.elements
-			}
-		})
-		.then((response) => {
-            console.log(response.data.formID);
-            var redirectTo = "/edit/" + response.data.formID;
-            console.log("about to redirect")
-            this.props.history.push( redirectTo );
-		})
-		.catch((response) => {
-			console.log("could not send data to /saveform")
-		})
+		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "") {
+			this.setState({
+				emptyFormNameError: ''
+			});
+			axios({
+				method: 'post',
+				url: '/saveform',
+				data: {
+					formName: this.state.formName,
+					formElements: this.state.elements
+				}
+			})
+			.then((response) => {
+				console.log(response.data.formID);
+				var redirectTo = "/edit/" + response.data.formID;
+				console.log("about to redirect")
+				this.props.history.push( redirectTo );
+			})
+			.catch((response) => {
+				console.log("could not send data to /saveform")
+			})
+			
+		}else{
+			this.setState({
+				emptyFormNameError: 'Please Enter a Name for the Form'
+			})
+		}
 	}
 
 	editElement = (e) =>{
@@ -170,9 +181,11 @@ class CreateForm extends Component {
 		return (
 		<div className="editable-form">
 			<AddFormElements addElement={(element)=> this.addElement(element)}/>
+			<label>Name of Form</label>
 			<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" />
 			{ this.state.generatedElementsList }
 			{ this.state.detailsPanel }
+			{ this.state.emptyFormNameError }
 			<button onClick={this.saveForm}>Create</button>
 		</div>
 		);

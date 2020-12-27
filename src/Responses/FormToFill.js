@@ -85,8 +85,6 @@ class EditableForm extends Component {
 		})
 	}
 
-    // collectResponse
-
 	render() {
 		return (
 		<div className="editable-form">
@@ -94,7 +92,7 @@ class EditableForm extends Component {
                 {/* <AddFormElements addElement={(element)=> this.addElement(element)}/> */}
                 {/* <button onClick={this.generateElements} >Generate Elements</button> */}
                 { this.state.generatedElementsList }
-                <input type="text" name="formID" value={window.location.pathname.substr(6)} className="hidden" required/>
+                <input type="text" name="formID" value={window.location.pathname.substr(6)} readOnly className="hidden" required/>
                 <button>Submit</button>
                 {/* <button onClick={this.hitBackend}>Test</button> */}
             </form>

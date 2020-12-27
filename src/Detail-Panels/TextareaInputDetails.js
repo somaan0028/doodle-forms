@@ -5,7 +5,8 @@ class TextareaInputDetails extends Component {
   state = {
     question: '',
     maxlength: '',
-    action: 'Add'
+    action: 'Add',
+    emptyFieldError: ''
   }
 
   componentDidMount(){
@@ -30,9 +31,20 @@ class TextareaInputDetails extends Component {
       question: this.state.question,
       maxlength: this.state.maxlength,
     }
-    console.log("Create Element Ran");
-    this.props.sendElement(element, e.target.id);
-    this.props.closeDetailsPanel(e);
+    if(element.question && !element.question.replace(/\s/g,"") == ""){
+      console.log("Create Element Ran");
+      this.setState({
+        emptyFieldError: ''
+      });
+      this.props.sendElement(element, e.target.id);
+      this.props.closeDetailsPanel(e);
+    }else{
+      console.log("Empty field");
+      this.setState({
+        emptyFieldError: 'Please fill the fields'
+      })
+      
+    }
   }
 
   handleQuestion = (e) => {
@@ -46,7 +58,8 @@ class TextareaInputDetails extends Component {
       <div className="detailsPanel textarea-input-details">
           <form className="detailsForm">
               <input type="text" id="question" placeholder="Enter the Question" value={this.state.question} onChange={this.handleQuestion}/>
-              <input type="number" id="maxlength" placeholder="Enter Max Limit" value={this.state.maxlength} onChange={this.handleQuestion}/>
+              <input type="number" id="maxlength" placeholder="Enter Max Limit (Optional)" value={this.state.maxlength} onChange={this.handleQuestion}/>
+              <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex}>{this.state.action}</button>
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>

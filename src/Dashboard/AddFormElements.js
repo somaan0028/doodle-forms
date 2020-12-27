@@ -12,9 +12,15 @@ class addFormElement extends Component {
 
 	toggleOptions = () => {
 		console.log("Button clicked");
-		this.setState({
-			optionsListClass: "showOptions"
-		});
+		if(this.state.optionsListClass === 'showOptions'){
+			this.setState({
+				optionsListClass: "hideOptions"
+			});
+		}else{
+			this.setState({
+				optionsListClass: "showOptions"
+			});
+		}
 	}
 
 	askForDetails = (e) => {

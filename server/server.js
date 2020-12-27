@@ -9,6 +9,7 @@ const formRoutes = require('./routes/formRoutes');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
+const Form = require('./models/form-model');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 //for static files
@@ -29,8 +30,6 @@ mongoose.connect(keys.mongodb.dbURI, { useNewUrlParser: true, useUnifiedTopology
 //to avoid deprecation warnings
 mongoose.set('useFindAndModify', false);
 
-//so we can use the user model
-const Form = require('./models/form-model');
 
 app.get('*', checkUser);
 app.post('*', checkUser);

@@ -20,29 +20,10 @@ class EditableForm extends Component {
 
 	state = {
 		formName: "",
-		elements: [
-			// {
-			// 	type: "Single-line",
-			// 	question: "How are you?",
-			// },
-			// {
-			// 	type: "Radio",
-			// 	question: "What is 2+2",
-			// 	values: [5, 6, 7, 8],
-			// },
-			// {
-			// 	type: "Checkboxes",
-			// 	question: "Select the animals",
-			// 	values: ["Frog", "Table", "Cow", "Chips"],
-			// },
-			// {
-			// 	type: "Textarea",
-			// 	question: "Write a note on life...max limit is 25 words",
-			// 	maxlength: 200,
-			// }
-		],
+		elements: [],
 		generatedElementsList:[],
-		detailsPanel: null
+		detailsPanel: null,
+		emptyFormNameError: ''
 	}
 
 	generateElements = () => {
@@ -124,21 +105,31 @@ class EditableForm extends Component {
 	}
 
 	updateForm = () => {
-		axios({
-			method: 'post',
-			url: '/updateform',
-			data: {
-				formID: window.location.pathname.substr(6),
-				formElements: this.state.elements,
-				formName: this.state.formName
-			}
-		})
-		.then(function (response) {
-			console.log(response.data);
-		})
-		.catch(function (response) {
-			console.log("could not send date")
-		})
+		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "") {
+			this.setState({
+				emptyFormNameError: ''
+			})			
+			axios({
+				method: 'post',
+				url: '/updateform',
+				data: {
+					formID: window.location.pathname.substr(6),
+					formElements: this.state.elements,
+					formName: this.state.formName
+				}
+			})
+			.then(function (response) {
+				console.log(response.data);
+			})
+			.catch(function (response) {
+				console.log("could not send date")
+			})
+		}else{
+			console.log("Name field is empty")
+			this.setState({
+				emptyFormNameError: 'Please Enter a Name for the Form'
+			})
+		}
 	}
 	
 	editElement = (e) =>{
@@ -203,6 +194,7 @@ class EditableForm extends Component {
 			<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName"  />
 			{ this.state.generatedElementsList }
 			{ this.state.detailsPanel }
+			{ this.state.emptyFormNameError }
 			<button onClick={this.updateForm}>Update</button>
 		</div>
 		);
