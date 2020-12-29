@@ -25,11 +25,12 @@ module.exports.submit_form = (req, res) => {
     .then((updatedForm)=>{
         console.log("Form Updated");
         // res.send("Form Submitted");
-        res.redirect('/formsubmitted');
+        res.redirect('/formsubmission?result=true');
     })
     .catch((err)=>{
         console.log(err);
-        res.send("Failed to update the form");
+        res.redirect('/formsubmission?result=false');
+        // res.send("Failed to update the form");
     })
 }
 

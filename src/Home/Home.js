@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 
-const Home = () => {
-  return (
-    <div className="home">
+class Home extends Component {
+
+  componentDidMount(){
+    axios.get('/authtest')
+    .then((result)=>{
+      if (result.data) {
+        this.props.history.push("/dashboard");
+      }
+    })
+  }
+
+  render() { 
+    return ( 
+      <div className="home">
         <h1>Welcome to the home page</h1>
-    </div>
-  );
+      </div>
+    );
+  }
 }
-
-export default Home
+ 
+export default Home;

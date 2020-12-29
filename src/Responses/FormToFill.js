@@ -6,11 +6,14 @@ import RadioBtn from '../Form-Elements/RadioBtn';
 import Checkboxes from '../Form-Elements/Checkboxes';
 import Textarea from '../Form-Elements/Textarea';
 
+import loadingGif from '../loading_gif.gif'
+
 class EditableForm extends Component {
 
 	state = {
 		elements: [],
-		generatedElementsList:[]
+		generatedElementsList:[],
+		displayData: false
 	}
 
 	generateElements = () => {
@@ -60,7 +63,8 @@ class EditableForm extends Component {
 		.then((response) => {
 			console.log(response.data);
 			this.setState({
-				elements: response.data.formElements
+				elements: response.data.formElements,
+				displayData: true
 			}, ()=>{this.generateElements()})
 		})
 		.catch((response) => {
@@ -86,18 +90,25 @@ class EditableForm extends Component {
 	}
 
 	render() {
-		return (
-		<div className="editable-form">
-            <form method='POST' action='/submitform'>
-                {/* <AddFormElements addElement={(element)=> this.addElement(element)}/> */}
-                {/* <button onClick={this.generateElements} >Generate Elements</button> */}
-                { this.state.generatedElementsList }
-                <input type="text" name="formID" value={window.location.pathname.substr(6)} readOnly className="hidden" required/>
-                <button>Submit</button>
-                {/* <button onClick={this.hitBackend}>Test</button> */}
-            </form>
-		</div>
-		);
+		if (this.state.displayData) {
+			return (
+			<div className="editable-form">
+				<form method='POST' action='/submitform'>
+					{/* <AddFormElements addElement={(element)=> this.addElement(element)}/> */}
+					{/* <button onClick={this.generateElements} >Generate Elements</button> */}
+					{ this.state.generatedElementsList }
+					<input type="text" name="formID" value={window.location.pathname.substr(6)} readOnly className="hidden" required/>
+					<button>Submit</button>
+					{/* <button onClick={this.hitBackend}>Test</button> */}
+				</form>
+			</div>
+			);
+			
+		}else{
+			return(
+				<img src={loadingGif} alt="loading..." />
+			)
+		}
 	}
 }
 
