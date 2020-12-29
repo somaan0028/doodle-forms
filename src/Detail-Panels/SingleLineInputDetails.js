@@ -52,7 +52,7 @@ class SingleLineInputDetails extends Component {
     return (
       <div className="detailsPanel single-line-input-details">
           <form className="detailsForm" onSubmit={(e)=>{e.preventDefault()}}>
-              <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion}  />
+              <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion} autoComplete="off" />
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex} >{this.state.action}</button>

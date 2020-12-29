@@ -195,7 +195,7 @@ class EditableForm extends Component {
 			<div className="editable-form">
 				<AddFormElements addElement={(element)=> this.addElement(element)}/>
 				<label>Name of Form</label>
-				<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName"  />
+				<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName" autoComplete="off" />
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
 				{ this.state.emptyFormNameError }

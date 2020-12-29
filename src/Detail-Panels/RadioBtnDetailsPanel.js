@@ -26,7 +26,7 @@ class RadioBtnDetailsPanel extends Component {
       console.log("Don't have default values");
       this.setState({
         optionValues: [
-            <input type="text" id="option1" key="1" value={this.state.values[0]} onChange={this.handleOptionValues} placeholder="Enter an Option" />
+            <input type="text" id="option1" key="1" value={this.state.values[0]} onChange={this.handleOptionValues} placeholder="Enter an Option" autoComplete="off" />
         ],
         values: [""]
       });
@@ -41,7 +41,7 @@ class RadioBtnDetailsPanel extends Component {
     optionValues = this.state.values.map((value, index)=>{
       var key = index+1;
       console.log("creating optionValues");
-      return <input type="text" id={`option${key}`} key={key} value={this.state.values[index]} onChange={this.handleOptionValues} placeholder="Enter an Option" />
+      return <input type="text" id={`option${key}`} key={key} value={this.state.values[index]} onChange={this.handleOptionValues} placeholder="Enter an Option" autoComplete="off" />
     });
     this.setState({
       optionValues: optionValues
@@ -107,7 +107,7 @@ class RadioBtnDetailsPanel extends Component {
         values: [...this.state.values, ""]
     }, ()=>{
       var optionValues = [...this.state.optionValues,
-          <input type="text" id={`option${key}`} key={key} value={this.state.values[key-1]} onChange={this.handleOptionValues} placeholder="Enter an Option" />
+          <input type="text" id={`option${key}`} key={key} value={this.state.values[key-1]} onChange={this.handleOptionValues} placeholder="Enter an Option" autoComplete="off" />
       ]
       this.setState({
         optionValues: optionValues,
@@ -137,7 +137,7 @@ class RadioBtnDetailsPanel extends Component {
     return (
       <div className="detailsPanel radio-btn-input-details">
           <form className="detailsForm">
-              <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion}/>
+              <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion} autoComplete="off" />
               {this.state.optionValues}
               <button onClick={this.addOptionValue} >Add Option</button>
               <button onClick={this.removeOptionValue} >Remove Option</button>
