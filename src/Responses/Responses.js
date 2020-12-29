@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import {NavLink} from 'react-router-dom';
 import SingleResponse from './SingleResponse';
+import loadingGif from '../loading_gif.gif'
 
 class Dashboard extends Component {
 
@@ -10,8 +11,11 @@ class Dashboard extends Component {
   state = {
     formName: null,
     listOfResponses: null,
-    generatedResponseList: null
+    generatedResponseList: null,
+    displayData: false
+
   }
+
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
 
@@ -21,7 +25,8 @@ class Dashboard extends Component {
       console.log(result);
       this.setState({
         listOfResponses: result.responses,
-        formName: result.formName
+        formName: result.formName,
+				displayData: true
       }, ()=>{this.generateResponseList()})
     })
     .catch((err)=>{
@@ -42,16 +47,22 @@ class Dashboard extends Component {
   }
 
   render(){
-    return (
-      <div className="responses">
-        <h2>Dashboard</h2>
-        <h3>Responses</h3>
-        <p>{this.state.formName}</p>
-
-        {this.state.generatedResponseList}
-        <NavLink to="/create">Create New Form</NavLink>
-      </div>
-    );
+    if (this.state.displayData) {
+      return (
+        <div className="responses">
+          <h2>Dashboard</h2>
+          <h3>Responses</h3>
+          <p>{this.state.formName}</p>
+  
+          {this.state.generatedResponseList}
+          <NavLink to="/create">Create New Form</NavLink>
+        </div>
+      );
+    }else{
+      return(
+        <img src={loadingGif} alt="loading..." />
+      )
+    }
   }
 }
 

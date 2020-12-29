@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {NavLink, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './Navbar.css';
+import { AuthContext } from '../Context/AuthContext';
 
 // const Navbar = () => {
 class Navbar extends Component {
@@ -44,5 +45,5 @@ class Navbar extends Component {
         );
     }
 }
-// <img src="/images/logo.png" alt="Logo">
+
 export default withRouter(Navbar)

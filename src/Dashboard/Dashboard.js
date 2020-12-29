@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import {NavLink} from 'react-router-dom';
+import loadingGif from '../loading_gif.gif'
 
 class Dashboard extends Component {
 
@@ -9,22 +10,19 @@ class Dashboard extends Component {
   state = {
     dashboard: null,
     listOfForms: null,
-    generatedFormList: null
+    generatedFormList: null,
+    displayData: false
   }
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
-
-    // var retrievedFormList = checkAuthAndReturnData('AllCreatedForms');
-    // this.setState({
-    //   listOfForms: retrievedFormList
-    // })
 
     checkAuthAndReturnData('AllCreatedForms')
     .then((result)=>{
       console.log("Logged In. Data Returned:")
       console.log(result);
       this.setState({
-        listOfForms: result
+        listOfForms: result,
+        displayData: true
       }, ()=>{this.generateFormList()})
     })
     .catch((err)=>{
@@ -47,20 +45,19 @@ class Dashboard extends Component {
   }
 
   render(){
-    return (
-      <div className="sign-up">
-        <h2>Dashboard</h2>
-        {/* <ul>
-            <li><p>The First Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
-            <li><p>The Second Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
-            <li><p>The Third Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
-            <li><p>The Fourth Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
-            <li><p>The Fifth Dummy Form</p><span><button>Edit Form</button><button>View Responses</button></span></li>
-        </ul> */}
-        {this.state.generatedFormList}
-        <NavLink to="/create">Create New Form</NavLink>
-      </div>
-    );
+    if (this.state.displayData) {
+      return (
+        <div className="sign-up-container">
+          <h2>Dashboard</h2>
+          {this.state.generatedFormList}
+          <NavLink to="/create">Create New Form</NavLink>
+        </div>
+      );
+    }else{
+      return(
+        <img src={loadingGif} alt="loading..." />
+      )
+    }
   }
 }
 

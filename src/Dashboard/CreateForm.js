@@ -13,6 +13,7 @@ import CheckboxesDetailsPanel from '../Detail-Panels/CheckboxesDetailsPanel';
 
 import AddFormElements from './AddFormElements';
 import { AuthContext } from '../Context/AuthContext';
+import loadingGif from '../loading_gif.gif'
 
 class CreateForm extends Component {
 
@@ -23,7 +24,8 @@ class CreateForm extends Component {
 		elements: [],
 		generatedElementsList:[],
 		detailsPanel: null,
-		emptyFormNameError: ''
+		emptyFormNameError: '',
+		displayData: false
     }
 
 	generateElements = () => {
@@ -65,8 +67,12 @@ class CreateForm extends Component {
 	
 	componentDidMount(){
 		const { checkAuthAndReturnData } = this.context;
-        checkAuthAndReturnData();
-		console.log(this.state.elements);
+        checkAuthAndReturnData().then(()=>{
+			console.log(this.state.elements);
+			this.setState({
+				displayData: true
+			})
+		});
 	}
 
 	addElement = (element) => {
@@ -178,17 +184,23 @@ class CreateForm extends Component {
 	}
 
 	render() {
-		return (
-		<div className="editable-form">
-			<AddFormElements addElement={(element)=> this.addElement(element)}/>
-			<label>Name of Form</label>
-			<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" />
-			{ this.state.generatedElementsList }
-			{ this.state.detailsPanel }
-			{ this.state.emptyFormNameError }
-			<button onClick={this.saveForm}>Create</button>
-		</div>
-		);
+		if(this.state.displayData){
+			return (
+			<div className="editable-form">
+				<AddFormElements addElement={(element)=> this.addElement(element)}/>
+				<label>Name of Form</label>
+				<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" />
+				{ this.state.generatedElementsList }
+				{ this.state.detailsPanel }
+				{ this.state.emptyFormNameError }
+				<button onClick={this.saveForm}>Create</button>
+			</div>
+			);
+		}else{
+			return (
+				<img src={loadingGif} alt="loading..." />
+			)
+		}
 	}
 }
 

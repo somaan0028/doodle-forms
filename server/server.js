@@ -105,6 +105,27 @@ app.post('/authtest', (req, res)=>{
     }
 });
 
+app.get('/authtest', (req, res)=>{
+    const token = req.cookies.jwt;
+    console.log("Trying to check for authentication");
+    // check json web token exists & is verified
+    if (token) {
+        jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+        if (err) {
+            console.log("Token not valid");
+            res.send(false);
+
+        } else {
+            console.log("Valid Token. Send 'true'");
+            res.send(true);
+            
+        }});
+    } else {
+        console.log("No token found");
+        res.send(false);
+    }
+});
+
 app.use(authRoutes);
 app.use(formRoutes);
 

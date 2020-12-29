@@ -5,6 +5,9 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 class AuthContextProvider extends Component {
+  state = {
+    isLoggedIn: false
+  }
 
   checkAuthAndReturnData = (requiredData, formID = null) => {
     return new Promise((resolve, reject)=>{
@@ -29,8 +32,12 @@ class AuthContextProvider extends Component {
           }else{
             // If authenticated
             console.log("Logged In");
+            this.setState({
+              isLoggedIn: true
+            }, ()=>{
+              resolve(result);
+            });
             // console.log(result);
-            resolve(result);
           }
       })
       .catch((error) => {
@@ -75,7 +82,7 @@ class AuthContextProvider extends Component {
   
   render() { 
     return (
-      <AuthContext.Provider value={{ checkAuthAndReturnData: this.checkAuthAndReturnData}}>
+      <AuthContext.Provider value={{ checkAuthAndReturnData: this.checkAuthAndReturnData, isLoggedIn: this.state.isLoggedIn}}>
         {this.props.children}
       </AuthContext.Provider>
     );

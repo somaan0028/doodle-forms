@@ -13,6 +13,7 @@ import CheckboxesDetailsPanel from '../Detail-Panels/CheckboxesDetailsPanel';
 
 import AddFormElements from './AddFormElements';
 import { AuthContext } from '../Context/AuthContext';
+import loadingGif from '../loading_gif.gif'
 
 class EditableForm extends Component {
 
@@ -23,7 +24,8 @@ class EditableForm extends Component {
 		elements: [],
 		generatedElementsList:[],
 		detailsPanel: null,
-		emptyFormNameError: ''
+		emptyFormNameError: '',
+		displayData: false
 	}
 
 	generateElements = () => {
@@ -71,7 +73,8 @@ class EditableForm extends Component {
 			console.log(result);
 			this.setState({
 				formName: result.formName,
-				elements: result.formElements
+				elements: result.formElements,
+				displayData: true
 			}, ()=>{this.generateElements()})
 		})
 		.catch((response) => {
@@ -187,17 +190,23 @@ class EditableForm extends Component {
 	}
 
 	render() {
-		return (
-		<div className="editable-form">
-			<AddFormElements addElement={(element)=> this.addElement(element)}/>
-			<label>Name of Form</label>
-			<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName"  />
-			{ this.state.generatedElementsList }
-			{ this.state.detailsPanel }
-			{ this.state.emptyFormNameError }
-			<button onClick={this.updateForm}>Update</button>
-		</div>
-		);
+		if (this.state.displayData) {
+			return (
+			<div className="editable-form">
+				<AddFormElements addElement={(element)=> this.addElement(element)}/>
+				<label>Name of Form</label>
+				<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName"  />
+				{ this.state.generatedElementsList }
+				{ this.state.detailsPanel }
+				{ this.state.emptyFormNameError }
+				<button onClick={this.updateForm}>Update</button>
+			</div>
+			);
+		}else{
+			return(
+				<img src={loadingGif} alt="loading..." />
+			)
+		}
 	}
 }
 
