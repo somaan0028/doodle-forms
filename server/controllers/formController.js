@@ -10,6 +10,7 @@ module.exports.get_form = (req, res) => {
     })
     .catch((err)=>{
         console.log(err);
+        res.send(false);
     })
 }
 

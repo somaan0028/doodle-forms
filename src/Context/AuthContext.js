@@ -21,10 +21,12 @@ class AuthContextProvider extends Component {
       })
       .then((response) => {
           // handle success
-          // console.log("Server returned: " + response.data);
+          console.log("Server returned: " + response.data);
           var result = response.data;
-  
-          if (!result) {
+          if (result == "Wrong Form ID") {
+            console.log("Server said 'Wrong Form ID");
+            this.props.history.push("/pagenotfound");
+          }else if (!result) {
             // If not authenticated
             console.log("Redirecting. Not logged In");
             this.props.history.push("/login");
@@ -42,42 +44,13 @@ class AuthContextProvider extends Component {
       })
       .catch((error) => {
           // handle error
-          console.log("In the catch method of axios");
+          console.log("In the catch method of axios in AuthContext()");
           console.log(error);
           this.props.history.push("/Login");
           reject(false);
       })
     });
-    // axios({
-		// 	method: 'post',
-		// 	url: '/authtest',
-		// 	data: {
-    //     requiredData:  requiredData,
-    //     formID: formID
-		// 	}
-		// })
-    // .then((response) => {
-    //     // handle success
-    //     console.log("Server returned: " + response.data);
-    //     var result = response.data;
-
-    //     if (!result) {
-    //       // If not authenticated
-    //       console.log("Redirecting. Not logged In");
-    //       this.props.history.push("/login");
-    //     }else{
-    //       // If authenticated
-    //       console.log("Logged In");
-    //       // console.log(result);
-    //       return result
-    //     }
-    // })
-    // .catch((error) => {
-    //     // handle error
-    //     console.log(error);
-    //     console.log("In the catch method of axios");
-    //     this.props.history.push("/Login");
-    // })
+  
   }
   
   render() { 

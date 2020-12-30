@@ -52,7 +52,6 @@ app.post('/authtest', (req, res)=>{
         } else {
             // console.log(decodedToken);
             let user = User.findById(decodedToken.id);
-            // console.log(user);
             
             // User logged in therefore send what was asked for.
             if (req.body.requiredData == 'AllCreatedForms') {
@@ -61,6 +60,11 @@ app.post('/authtest', (req, res)=>{
                 Form.find({userID: req.user._id}, {formName: 1, _id: 1})
                 .then((forms)=>{
                     res.send(forms);
+                })
+                .catch((err)=>{
+                    console.log(err);
+                    res.redirect('/pagenotfound');
+                    // res.send(false);
                 })
             }else if (req.body.requiredData == 'SingleForm') {
                 console.log("Now have to send data for " + req.body.formID);
@@ -76,7 +80,9 @@ app.post('/authtest', (req, res)=>{
                     }
                 })
                 .catch((err)=>{
-                    console.log(err);
+                    // console.log(err);
+                    console.log("Could not find form for the id: " + req.body.formID);
+                    res.send("Wrong Form ID");
                 })
                 // res.send(true);
             }else if(req.body.requiredData == 'AllResponses'){
@@ -93,6 +99,7 @@ app.post('/authtest', (req, res)=>{
                 })
                 .catch((err)=>{
                     console.log(err);
+                    res.send("Wrong Form ID");
                 })
             }else{
                 res.send(true);

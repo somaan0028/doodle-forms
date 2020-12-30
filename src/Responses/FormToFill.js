@@ -53,19 +53,30 @@ class EditableForm extends Component {
 	}
 	
 	componentDidMount(){
+		var formToGet = window.location.pathname.substr(6);
+		if (formToGet.length !== 24) {
+			console.log("Form length very short");
+			this.props.history.push("/pagenotfound");
+		}
 		axios({
 			method: 'post',
 			url: '/getform',
 			data: {
-				formID:  window.location.pathname.substr(6)
+				formID: formToGet
 			}
 		})
 		.then((response) => {
-			console.log(response.data);
-			this.setState({
-				elements: response.data.formElements,
-				displayData: true
-			}, ()=>{this.generateElements()})
+			console.log("Response came from /getform POST request");
+			console.log(response);
+			if (response.data) {
+				this.setState({
+					elements: response.data.formElements,
+					displayData: true
+				}, ()=>{this.generateElements()})
+				
+			}else{
+				this.props.history.push("/pagenotfound");
+			}
 		})
 		.catch((response) => {
 			console.log("could not get form from /getform")

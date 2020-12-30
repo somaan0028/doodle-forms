@@ -19,6 +19,11 @@ class Dashboard extends Component {
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
 
+    if (window.location.pathname.substr(11).length !== 24) {
+			console.log("Form length very short");
+			this.props.history.push("/pagenotfound");
+    }
+    
     checkAuthAndReturnData('AllResponses', window.location.pathname.substr(11))
     .then((result)=>{
       console.log("Logged In. Data Returned:")

@@ -68,8 +68,15 @@ class EditableForm extends Component {
 	componentDidMount(){
 
 		const { checkAuthAndReturnData } = this.context;
+
+		if (window.location.pathname.substr(6).length !== 24) {
+			console.log("Form length very short");
+			this.props.history.push("/pagenotfound");
+		}
+		
 		checkAuthAndReturnData('SingleForm', window.location.pathname.substr(6))
 		.then((result)=>{
+			console.log("Data from server checkAuthAndReturnData() ");
 			console.log(result);
 			this.setState({
 				formName: result.formName,
