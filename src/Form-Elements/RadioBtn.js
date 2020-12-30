@@ -1,7 +1,19 @@
 import React from 'react';
 
 const RadioBtn = ({question, values, id, editElement, deleteElement}) => {
-  return (
+
+    if (editElement) {
+        console.log("Editing Buttons should be visible");
+        var editButtons = <div>
+          <button onClick={editElement} id={id}>Edit</button>
+          <button onClick={deleteElement} id={id}>Delete</button>
+        </div>
+    }else{
+        console.log("Ediing Buttons should NOT be visible");
+        var editButtons = null;
+    }
+
+    return (
         <div className="radio-btn-element form-element" key={id}>
             <label>{question}</label>
             {
@@ -14,8 +26,7 @@ const RadioBtn = ({question, values, id, editElement, deleteElement}) => {
                     )
                 })
             }
-            <button onClick={editElement} id={id}>Edit</button>
-            <button onClick={deleteElement} id={id}>Delete</button>
+            {editButtons}
         </div>
     );
 }
