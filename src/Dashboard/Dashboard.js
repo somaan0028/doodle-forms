@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import {NavLink} from 'react-router-dom';
 import loadingGif from '../loading_gif.gif'
+import Navbar from '../Home/Navbar.js';
 
 class Dashboard extends Component {
 
@@ -48,6 +49,7 @@ class Dashboard extends Component {
     if (this.state.displayData) {
       return (
         <div className="sign-up-container">
+        <Navbar isAuth={true} />
           <h2>Dashboard</h2>
           {this.state.generatedFormList}
           <NavLink to="/create">Create New Form</NavLink>

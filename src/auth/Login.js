@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
+import Navbar from '../Home/Navbar.js';
+import axios from 'axios';
 
 class Login extends Component {
 
   state = {
     abc: null,
+  }
+
+  componentDidMount(){
+    axios.get('/authtest')
+    .then((result)=>{
+      if (result.data) {
+        this.props.history.push("/dashboard");
+      }
+    })
   }
 
   handleSubmit = async (e) => {
@@ -50,13 +61,14 @@ class Login extends Component {
   render(){
     return (
       <div className="log-in">
+			  <Navbar isAuth={false} />
         <form onSubmit={this.handleSubmit}>
           <h2>Login</h2>
           <label htmlFor="email">Email</label>
           <input type="text" name="email"  />
           <div className="email error"></div>
           <label htmlFor="password">Password</label>
-          <input type="password" name="password"  />
+          <input type="password" name="password" />
           <div className="password error"></div>
           <button>login</button>
         </form>

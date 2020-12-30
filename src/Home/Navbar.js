@@ -3,7 +3,6 @@ import {NavLink, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './Navbar.css';
 
-// const Navbar = () => {
 class Navbar extends Component {
 
     handleLogout = (e) => {
@@ -22,26 +21,48 @@ class Navbar extends Component {
     }
 
     render(){
-        return (
-            <nav>
-                <ul className="menu">
-                    <li className="logo"><NavLink to="#"></NavLink></li>
-                    <li className="item"><NavLink to="/">Home</NavLink></li>
-                    <li className="item"><NavLink to="/login">Log In</NavLink></li>
-                    <li className="item"><NavLink to="/signup">Sign Up</NavLink></li>
-                    <li className="item"><a onClick={this.handleLogout} href="/logout">Log Out</a></li>
-
-                    <li className="toggle"><span className="bars"></span></li>
-                    <li className="toggle">
-                        <div className="burger">
-                            <div className="line1"></div>
-                            <div className="line2"></div>
-                            <div className="line3"></div>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        );
+        if (this.props.isAuth) {
+            console.log("Show logged IN links in Navbar");
+            return (
+                <nav>
+                    <ul className="menu">
+                        <li className="logo"><NavLink to="#"></NavLink></li>
+                        <li className="item"><NavLink to="/dashboard">Dashboard</NavLink></li>
+                        <li className="item"><a onClick={this.handleLogout} href="/logout">Log Out</a></li>
+    
+                        <li className="toggle"><span className="bars"></span></li>
+                        <li className="toggle">
+                            <div className="burger">
+                                <div className="line1"></div>
+                                <div className="line2"></div>
+                                <div className="line3"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            );
+        }else{
+            console.log("Show logged out links in Navbar");
+            return (
+                <nav>
+                    <ul className="menu">
+                        <li className="logo"><NavLink to="#"></NavLink></li>
+                        <li className="item"><NavLink to="/">Home</NavLink></li>
+                        <li className="item"><NavLink to="/login">Log In</NavLink></li>
+                        <li className="item"><NavLink to="/signup">Sign Up</NavLink></li>
+    
+                        <li className="toggle"><span className="bars"></span></li>
+                        <li className="toggle">
+                            <div className="burger">
+                                <div className="line1"></div>
+                                <div className="line2"></div>
+                                <div className="line3"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            );
+        }
     }
 }
 

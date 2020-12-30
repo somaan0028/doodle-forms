@@ -11,6 +11,7 @@ import TextareaInputDetails from '../Detail-Panels/TextareaInputDetails';
 import RadioBtnDetailsPanel from '../Detail-Panels/RadioBtnDetailsPanel';
 import CheckboxesDetailsPanel from '../Detail-Panels/CheckboxesDetailsPanel';
 
+import Navbar from '../Home/Navbar.js';
 import AddFormElements from './AddFormElements';
 import { AuthContext } from '../Context/AuthContext';
 import loadingGif from '../loading_gif.gif'
@@ -187,6 +188,7 @@ class CreateForm extends Component {
 		if(this.state.displayData){
 			return (
 			<div className="editable-form">
+			    <Navbar isAuth={true} />
 				<AddFormElements addElement={(element)=> this.addElement(element)}/>
 				<label>Name of Form</label>
 				<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" autoComplete="off" />

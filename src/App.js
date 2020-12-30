@@ -20,7 +20,7 @@ class App extends Component {
       <BrowserRouter>
         <AuthContextProvider>
           <div className="App">
-            <Navbar />
+            {/* <Navbar isAuth={true} /> */}
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/signup' component={Signup} />

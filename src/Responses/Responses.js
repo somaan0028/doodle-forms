@@ -3,6 +3,7 @@ import { AuthContext } from '../Context/AuthContext';
 import {NavLink} from 'react-router-dom';
 import SingleResponse from './SingleResponse';
 import loadingGif from '../loading_gif.gif'
+import Navbar from '../Home/Navbar.js';
 
 class Dashboard extends Component {
 
@@ -55,6 +56,7 @@ class Dashboard extends Component {
     if (this.state.displayData) {
       return (
         <div className="responses">
+        	<Navbar isAuth={true} />
           <h2>Dashboard</h2>
           <h3>Responses</h3>
           <p>{this.state.formName}</p>
