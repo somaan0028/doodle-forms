@@ -48,7 +48,7 @@ class Dashboard extends Component {
   render(){
     if (this.state.displayData) {
       return (
-        <div className="sign-up-container">
+        <div className="dashboard">
         <Navbar isAuth={true} />
           <h2>Dashboard</h2>
           {this.state.generatedFormList}
@@ -57,7 +57,7 @@ class Dashboard extends Component {
       );
     }else{
       return(
-        <img src={loadingGif} alt="loading..." />
+        <img className="loading-gif" src={loadingGif} alt="loading..." />
       )
     }
   }

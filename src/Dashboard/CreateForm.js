@@ -125,7 +125,7 @@ class CreateForm extends Component {
 			
 		}else{
 			this.setState({
-				emptyFormNameError: 'Please Enter a Name for the Form'
+				emptyFormNameError: <p className="error-msg">Please Enter a Name for the Form</p>
 			})
 		}
 	}
@@ -187,20 +187,22 @@ class CreateForm extends Component {
 	render() {
 		if(this.state.displayData){
 			return (
-			<div className="editable-form">
+			<div className="theForm create-form">
 			    <Navbar isAuth={true} />
-				<AddFormElements addElement={(element)=> this.addElement(element)}/>
-				<label>Name of Form</label>
-				<input onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" autoComplete="off" />
+				<div className="form-name-container">
+					<label>Name of Form: </label>
+					<input className="formName-input" onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" autoComplete="off" />
+				</div>
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
+				<AddFormElements addElement={(element)=> this.addElement(element)}/>				
 				{ this.state.emptyFormNameError }
-				<button onClick={this.saveForm}>Create</button>
+				<button onClick={this.saveForm} className="end-of-form-btn">Create</button>
 			</div>
 			);
 		}else{
 			return (
-				<img src={loadingGif} alt="loading..." />
+				<img className="loading-gif" src={loadingGif} alt="loading..." />
 			)
 		}
 	}

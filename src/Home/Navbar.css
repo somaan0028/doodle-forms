@@ -30,6 +30,9 @@ nav {
     padding: 0px 10px;
     font-family: 'Poppins', sans-serif;
     box-shadow: 0 0 10px #2d2d2d;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 nav ul {
     list-style-type: none;

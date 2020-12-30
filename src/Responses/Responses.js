@@ -67,7 +67,7 @@ class Dashboard extends Component {
       );
     }else{
       return(
-        <img src={loadingGif} alt="loading..." />
+        <img className="loading-gif" src={loadingGif} alt="loading..." />
       )
     }
   }

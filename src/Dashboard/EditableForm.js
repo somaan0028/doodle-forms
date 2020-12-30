@@ -138,7 +138,7 @@ class EditableForm extends Component {
 		}else{
 			console.log("Name field is empty")
 			this.setState({
-				emptyFormNameError: 'Please Enter a Name for the Form'
+				emptyFormNameError: <p className="error-msg">Please Enter a Name for the Form</p>
 			})
 		}
 	}
@@ -200,20 +200,22 @@ class EditableForm extends Component {
 	render() {
 		if (this.state.displayData) {
 			return (
-			<div className="editable-form">
+			<div className="theForm editable-form">
 			    <Navbar isAuth={true} />
-				<AddFormElements addElement={(element)=> this.addElement(element)}/>
-				<label>Name of Form</label>
-				<input value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName" autoComplete="off" />
+				<div className="form-name-container">
+					<label>Name of Form: </label>
+					<input className="formName-input" value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName" autoComplete="off" />
+				</div>
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
+				<AddFormElements addElement={(element)=> this.addElement(element)}/>
 				{ this.state.emptyFormNameError }
-				<button onClick={this.updateForm}>Update</button>
+				<button onClick={this.updateForm} className="end-of-form-btn">Update</button>
 			</div>
 			);
 		}else{
 			return(
-				<img src={loadingGif} alt="loading..." />
+				<img className="loading-gif" src={loadingGif} alt="loading..." />
 			)
 		}
 	}

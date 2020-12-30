@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
 body {
   margin: 0;
   padding: 0;
@@ -13,6 +15,18 @@ code {
     monospace;
 }
 
+*{
+  font-family: 'Comfortaa', cursive;
+}
+
+/* Background animation */
+.ball {
+  position: fixed;
+  border-radius: 100%;
+  opacity: 0.7;
+  z-index: -10;
+}
+
 .hidden{
   display: none;
 }
@@ -22,28 +36,200 @@ code {
   padding: 0;
 }
 
-.editable-form{
+
+/* Loading GIF */
+.loading-gif{
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 
+==========================================
+Home
+==========================================
+*/
+.home-container{
+  padding: 0;
+  padding-top: 75px;
+}
+
+/* 
+==========================================
+Form Styling
+==========================================
+*/
+
+.theForm{
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  border: 5px solid green;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 0 150px 0;
 }
 
-.form-element{
-  border: 2px solid black;
-  margin: 20px 10px;
-  box-shadow: 0 0 15px rgb(34, 34, 34, 0.4);
-  padding: 15px;
+.theForm form{
   display: flex;
   flex-direction: column;
 }
 
+.formName-formToFill{
+  text-align: center;
+  margin: 40px 0;
+}
+
+.theForm .end-of-form-btn,
+.theForm form .end-of-form-btn{
+  margin: 40px auto;
+  padding: 20px 30px;
+  background-color: rgb(2, 126, 2);
+  border: 0;
+  color: white;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+  font-size: 16px;
+}
+.theForm .end-of-form-btn:hover{
+  transform: translateY(-5px);
+}
+
+.theForm .form-name-container{
+  display: flex;
+  background-color: white;
+  width: 100%;
+  box-shadow: 0 0 15px 2px rgb(34 34 34 / 84%);
+  padding: 20px 25px;
+  border-radius: 10px;
+  margin: 0 auto 20px auto;
+  width: 95%;
+  max-width: 750px;
+}
+
+.theForm .form-name-container .formName-input{
+  margin: 0 20px;
+  border-width: 0 0 1px 0;
+  border-color: rgb(2, 126, 2);
+  border-style: solid;
+  flex: 1;
+  font-size: 20px;
+  text-align: center;
+  animation: all 5s;
+  padding-bottom: 4px;
+}
+.theForm .form-name-container .formName-input:focus{
+  outline: none;
+  border-width: 0 0 2px 0;
+
+}
+
+.theForm .error-msg{
+  background-color: white;
+  margin: 20px auto;
+  color: red;
+  text-align: center;
+  width: fit-content;
+  font-weight: bold;
+  box-shadow: 0 0 10px #222222;
+  padding: 10px 15px;
+  border-radius: 20px;
+}
+.theForm .edit-form-btns-container{
+  position: absolute;
+  right: 25px;
+  top: 5px;
+}
+
+.theForm .edit-form-btns-container .edit-form-btns{
+  padding: 4px 6px;
+  font-size: 19px;
+  background: transparent;
+  border: 1px solid rgb(13, 13, 13, 0.64);
+  border-radius: 4px;
+  margin-left: 2px;
+  cursor: pointer;
+}
+.theForm .edit-form-btns-container .edit-form-btns:hover{
+  background-color: #eaeaea;
+}
+
+/* 
+========================================
+Form Elements
+========================================
+*/
+.form-element{
+  border-radius: 20px;
+  margin: 20px auto;
+  box-shadow: 0 0 15px 2px rgb(34 34 34 / 84%);
+  padding: 35px 25px 25px 25px;
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  max-width: 750px;
+  background-color: white;
+  position: relative;
+}
+
+.theForm .form-element .form-element-question{
+  margin-bottom: 5px;
+}
+.theForm .form-element .oneline-element-input{
+  border: 0;
+  height: 40px;
+  border-bottom: 1px solid green;
+  font-size: 20px;
+}
+.theForm .form-element .oneline-element-input:focus{
+  outline: none;
+  border-bottom: 2px solid green;
+}
+.theForm .form-element .textarea-element-input{
+  border: 1px solid green;
+  border-radius: 10px;
+  border-bottom-right-radius: 0;
+  padding: 10px;
+  font-size: 18px;
+  width: 100%;
+  resize: vertical;
+}
+.theForm .form-element .textarea-element-input:focus{
+  outline: none;
+  border: 2px solid green;
+}
+.theForm .form-element .radio-element-input,
+.theForm .form-element .checkbox-element-input{
+  margin-right: 10px;
+}
+
+/* 
+========================================
+Add form
+========================================
+*/
 .add-form-element{
-  /* position: absolute; */
-  top: 25px;
-  left: 25px;
-  border: 1px solid red;
+  width: fit-content;
+  margin: auto;
+}
+.add-form-element .add-form-elements-btn{
+  background-color: rgb(255, 255, 255);
+  border: 0;
+  border-radius: 50%;
+  padding: 15px;
+  color: #222222;
+  box-shadow: 0 0 10px #222222;
+  font-size: 20px;
+  width: 50px;
+  height: 50px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.add-form-element .add-form-elements-btn:hover{
+  background-color: rgb(177, 177, 177); 
 }
 
 .add-form-element .options{
@@ -51,17 +237,36 @@ code {
   display: flex;
   flex-direction: column;
   transition: 0.3s all;
+  box-shadow: 0 0 10px #222222;
+  margin: 10px 0 0 0;
+  left: 50%;
+  right: 0;
+  transform: translate(-50%, 0);
+  width: fit-content;
+  margin-bottom: 300px;
 }
 .add-form-element .hideOptions{
-  /* top: -500px; */
-  transform: translateY(-400px);
+  transform: translate(-5000%, 0);
 }
 
 .add-form-element .showOptions{
-  /* top: 0; */
-  transform: translateX(0);
+  transform: translate(-50%, 0);
+}
+.add-form-element .add-form-element-option{
+  padding: 16px 30px;
+  background-color: white;
+  cursor: pointer;
+  border: 1px solid rgb(233, 233, 233);
+}
+.add-form-element .add-form-element-option:hover{
+  background-color: rgb(218, 218, 218);
 }
 
+/* 
+==================================
+Details Panels
+==================================
+*/
 .detailsPanel{
   position: absolute;
   top: 0;
@@ -85,6 +290,88 @@ code {
   padding: 20px;
   margin: 20px;
 }
+
+/* 
+==================================
+Login
+==================================
+*/
+
+/* .auth-container{
+  padding: 0 10px;
+} */
+
+.auth-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 0 0 10px #222222;
+  padding: 150px 30px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  background-image: url("/src/auth_form_background.png");
+  background-size: cover;
+  background-position: top center;
+}
+
+.auth-form .auth-heading{
+  color: #7b6444;
+  text-align: center;
+}
+.auth-form .auth-labels{
+  margin: 20px 0 0 0;
+}
+.auth-form .auth-inputs{
+  height: 50px;
+  padding: 10px;
+  border: 0;
+  background-color: #e8e8e8;
+  font-size: 17px;
+  margin-top: 10px;
+}
+.auth-form .auth-buttons{
+  margin: 25px auto 10px auto;
+  padding: 15px 60px;
+  background-color: #7b6444;
+  border: 0;
+  border-radius: 30px;
+  color: white;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 16px;
+}
+.auth-form .auth-buttons:hover{
+  background-color: #553200;
+}
+.auth-form .demo-user{
+  border: 1px solid black;
+  border-radius: 22px;
+  padding: 7px;
+  cursor: pointer;
+}
+.auth-form .auth-redirect{
+  font-size: 14px;
+  text-align: center;
+  margin-top: 25px;
+}
+
+/* 
+==================================
+Dashboard
+==================================
+*/
+.dashboard{
+  padding-top: 100px;
+}
+
+
+
+
 /* =============================== */
 
 /* google fonts */

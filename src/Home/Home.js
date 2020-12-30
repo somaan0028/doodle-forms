@@ -15,9 +15,11 @@ class Home extends Component {
 
   render() { 
     return ( 
-      <div className="home">
+      <div className="home-container">
         <Navbar isAuth={false} />
-        <h1>Welcome to the home page</h1>
+          <div className="home">
+            <h1>Welcome to the home page</h1>
+          </div>
       </div>
     );
   }

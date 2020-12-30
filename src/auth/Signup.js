@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../Home/Navbar.js';
+import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 class Signup extends Component {
 
@@ -60,19 +61,19 @@ class Signup extends Component {
 
   render(){
     return (
-      <div className="sign-up">
+      <div className="auth-container">
       	<Navbar isAuth={false} />
-        <form onSubmit={this.handleSubmit}>
-            <h2>Sign up</h2>
-            <p>Please fill in this form to create an account.</p>
-            <hr/>
-            <label htmlFor="email">Email</label>
-            <input type="text" name="email" required />
+        <form className="auth-form signup-form" onSubmit={this.handleSubmit}>
+            <h2 className="auth-heading">Sign up</h2>
+            {/* <label className="auth-labels" htmlFor="email">Email</label> */}
+            <input className="auth-inputs" type="text" name="email" placeholder="Email" required />
             <div className="email error"></div>
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" required />
+            {/* <label className="auth-labels" htmlFor="password">Password</label> */}
+            <input className="auth-inputs" type="password" name="password" placeholder="Password" required />
             <div className="password error"></div>
-            <button>Sign up</button>
+            <button className="auth-buttons">Sign up</button>
+            <button className="demo-user">Login In using Demo User</button>
+            <p className="auth-redirect">Already have an account? <NavLink to="/login" >Login</NavLink></p>
         </form>
       </div>
     );

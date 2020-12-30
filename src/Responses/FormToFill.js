@@ -11,6 +11,7 @@ import loadingGif from '../loading_gif.gif'
 class EditableForm extends Component {
 
 	state = {
+		formName: '',
 		elements: [],
 		generatedElementsList:[],
 		displayData: false
@@ -70,6 +71,7 @@ class EditableForm extends Component {
 			console.log(response);
 			if (response.data) {
 				this.setState({
+					formName: response.data.formName,
 					elements: response.data.formElements,
 					displayData: true
 				}, ()=>{this.generateElements()})
@@ -103,21 +105,19 @@ class EditableForm extends Component {
 	render() {
 		if (this.state.displayData) {
 			return (
-			<div className="editable-form">
+			<div className="theForm form-to-fill">
+				<h2 className="formName-formToFill">{this.state.formName}</h2>
 				<form method='POST' action='/submitform'>
-					{/* <AddFormElements addElement={(element)=> this.addElement(element)}/> */}
-					{/* <button onClick={this.generateElements} >Generate Elements</button> */}
 					{ this.state.generatedElementsList }
 					<input type="text" name="formID" value={window.location.pathname.substr(6)} readOnly className="hidden" required/>
-					<button>Submit</button>
-					{/* <button onClick={this.hitBackend}>Test</button> */}
+					<button className="end-of-form-btn">Submit</button>
 				</form>
 			</div>
 			);
 			
 		}else{
 			return(
-				<img src={loadingGif} alt="loading..." />
+				<img className="loading-gif" src={loadingGif} alt="loading..." />
 			)
 		}
 	}

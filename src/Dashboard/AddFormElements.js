@@ -68,12 +68,12 @@ class addFormElement extends Component {
 	render(){
 		return(
 			<div className="add-form-element">
-				<button onClick={this.toggleOptions} >Add Element</button>
-				<div className={`${this.state.optionsListClass} options`}>
-					<button onClick={this.askForDetails} id="one-line-input-btn">Add One Line Input</button>
-					<button onClick={this.askForDetails} id="textarea-input-btn">Add Textarea</button>
-					<button onClick={this.askForDetails} id="radio-input-btn">Add Radio Buttons</button>
-					<button onClick={this.askForDetails} id="checkbox-input-btn">Add Checkboxes</button>
+				<button className="add-form-elements-btn" onClick={this.toggleOptions} ><i class="fa fa-plus" aria-hidden="true"></i></button>
+				<div className={`${this.state.optionsListClass} options `}>
+					<button className="add-form-element-option" onClick={this.askForDetails} id="one-line-input-btn">Add One Line Input</button>
+					<button className="add-form-element-option" onClick={this.askForDetails} id="textarea-input-btn">Add Textarea</button>
+					<button className="add-form-element-option" onClick={this.askForDetails} id="radio-input-btn">Add Radio Buttons</button>
+					<button className="add-form-element-option" onClick={this.askForDetails} id="checkbox-input-btn">Add Checkboxes</button>
 				</div>
 				{ this.state.detailsPanel }
 			</div>
