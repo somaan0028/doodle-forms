@@ -17,6 +17,35 @@ class Signup extends Component {
     })
   }
 
+  demo_login = async (e) => {
+
+    e.preventDefault();
+
+    const email = "demouser@gmail.com";
+    const password = "123456";
+    try {
+      const res = await fetch('/login', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      // if (data.errors) {
+      //   emailError.textContent = data.errors.email;
+      //   passwordError.textContent = data.errors.password;
+      // }
+      if (data.user) {
+        // location.assign('/');
+        this.props.history.push("/dashboard");
+      }
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
   handleSubmit = async (e) => {
     const form = document.querySelector('form');
     const emailError = document.querySelector('.email.error');
@@ -80,7 +109,7 @@ class Signup extends Component {
             <input className="auth-inputs" type="password" name="password" placeholder="Password" />
             <div className="password error"></div>
             <button className="auth-buttons">Sign up</button>
-            <button className="demo-user">Login In using Demo User</button>
+            <button onClick={this.demo_login} className="demo-user">Login In using Demo User</button>
             <p className="auth-redirect">Already have an account? <NavLink to="/login" >Login</NavLink></p>
         </form>
       </div>
