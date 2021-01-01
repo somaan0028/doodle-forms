@@ -5,7 +5,8 @@ const formSchema = new Schema({
     formName: String,
     userID: String,
     formElements: Array,
-    responses: Array
+    responses: Array,
+    time : { type : Number, default:Math.floor(Date.now() / 1000) }
 });
 
 const Form = mongoose.model('form', formSchema);

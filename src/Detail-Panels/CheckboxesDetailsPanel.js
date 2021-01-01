@@ -63,7 +63,7 @@ class CheckboxesDetailsPanel extends Component {
     if(element.question === '' || valueIsEmpty){
       console.log("Empty field");
       this.setState({
-        emptyFieldError: 'Please fill the fields'
+        emptyFieldError: 'Please fill all the fields'
       })
     }else{
       console.log("Create Element Ran");
@@ -134,11 +134,13 @@ class CheckboxesDetailsPanel extends Component {
     return (
       <div className="detailsPanel checkbox-input-details">
           <form className="detailsForm">
-
+              <h2 className="details-panel-heading">Add Checkboxes</h2>
               <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion} autoComplete="off" />
               {this.state.optionValues}
-              <button onClick={this.addOptionValue} >Add Option</button>
-              <button onClick={this.removeOptionValue} >Remove Option</button>
+              <div className="add-remove-options-div">
+                <button onClick={this.addOptionValue} ><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button onClick={this.removeOptionValue} ><i class="fa fa-minus" aria-hidden="true"></i></button>
+              </div>
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex} >{this.state.action}</button>

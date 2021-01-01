@@ -41,7 +41,7 @@ class TextareaInputDetails extends Component {
     }else{
       console.log("Empty field");
       this.setState({
-        emptyFieldError: 'Please fill the fields'
+        emptyFieldError: 'Please enter a question'
       })
       
     }
@@ -57,6 +57,7 @@ class TextareaInputDetails extends Component {
     return (
       <div className="detailsPanel textarea-input-details">
           <form className="detailsForm">
+              <h2 className="details-panel-heading">Add a Textarea</h2>
               <input type="text" id="question" placeholder="Enter the Question" value={this.state.question} onChange={this.handleQuestion} autoComplete="off" />
               <input type="number" id="maxlength" placeholder="Enter Max Limit (Optional)" value={this.state.maxlength} onChange={this.handleQuestion} autoComplete="off" />
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>

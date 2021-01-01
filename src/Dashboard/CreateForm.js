@@ -25,7 +25,7 @@ class CreateForm extends Component {
 		elements: [],
 		generatedElementsList:[],
 		detailsPanel: null,
-		emptyFormNameError: '',
+		errorToDisplay: '',
 		displayData: false
     }
 
@@ -79,7 +79,8 @@ class CreateForm extends Component {
 	addElement = (element) => {
 		var updatedElementsList = [...this.state.elements, element]
 		this.setState({
-			elements: updatedElementsList
+			elements: updatedElementsList,
+			errorToDisplay: ''
 		}, ()=>{
 			this.generateElements();
 			console.log(this.state.elements);
@@ -101,9 +102,9 @@ class CreateForm extends Component {
 	}
 
 	saveForm = () => {
-		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "") {
+		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "" && this.state.elements.length !== 0) {
 			this.setState({
-				emptyFormNameError: ''
+				errorToDisplay: ''
 			});
 			axios({
 				method: 'post',
@@ -123,9 +124,13 @@ class CreateForm extends Component {
 				console.log("could not send data to /saveform")
 			})
 			
+		}else if(this.state.elements.length == 0){
+			this.setState({
+				errorToDisplay: <p className="error-msg">Please add at least one form Element</p>
+			})
 		}else{
 			this.setState({
-				emptyFormNameError: <p className="error-msg">Please Enter a Name for the Form</p>
+				errorToDisplay: <p className="error-msg">Please Enter a Name for the Form</p>
 			})
 		}
 	}
@@ -196,7 +201,7 @@ class CreateForm extends Component {
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
 				<AddFormElements addElement={(element)=> this.addElement(element)}/>				
-				{ this.state.emptyFormNameError }
+				{ this.state.errorToDisplay }
 				<button onClick={this.saveForm} className="end-of-form-btn">Create</button>
 			</div>
 			);

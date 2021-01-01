@@ -36,7 +36,7 @@ class SingleLineInputDetails extends Component {
     }else{
       console.log("Empty field");
       this.setState({
-        emptyFieldError: 'Please fill the field'
+        emptyFieldError: 'Please enter a question'
       })
       
     }
@@ -52,6 +52,7 @@ class SingleLineInputDetails extends Component {
     return (
       <div className="detailsPanel single-line-input-details">
           <form className="detailsForm" onSubmit={(e)=>{e.preventDefault()}}>
+              <h2 className="details-panel-heading">Add a Single line Field</h2>
               <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion} autoComplete="off" />
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">

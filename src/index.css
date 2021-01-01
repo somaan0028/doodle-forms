@@ -268,7 +268,7 @@ Details Panels
 ==================================
 */
 .detailsPanel{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: rgb(0, 0, 0, 0.72);
@@ -281,7 +281,74 @@ Details Panels
 }
 .detailsPanel .detailsForm{
   background-color: white;
-  padding: 100px;
+  padding: 50px;
+  border-radius: 30px;
+  width: 100%;
+  max-width: 380px;
+}
+.detailsPanel .detailsForm .details-panel-heading{
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.detailsPanel .detailsForm input{
+  height: 40px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 15px;
+  border: 2px solid #616161;
+  border-radius: 10px;
+}
+.detailsPanel .detailsForm button{
+  font-size: 15px;
+  padding: 5px 7px;
+  background-color: #00af00;
+  color: white;
+  text-align: center;
+  display: block;
+  border-radius: 7px;
+  text-decoration: none;
+  margin: 5px 0;
+  border: 0;
+  transition: all 0.1s;
+}
+.detailsPanel .detailsForm button:hover{
+  background-color: #00af9b;
+}
+
+.detailsPanel .detailsForm .details-panel-btns{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.detailsPanel .detailsForm .details-panel-btns button{
+  flex: 1 1;
+  cursor: pointer;
+  margin: 20px 5px 5px 5px;
+  padding: 14px 5px;
+  font-size: 16px;
+  box-shadow: 0 0 20px 1px rgba(33, 33, 33, 0.478);
+}
+.detailsPanel .detailsForm .add-remove-options-div{
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px;
+}
+.detailsPanel .detailsForm .add-remove-options-div button{
+  border-radius: 50%;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px 10px;
+}
+.detailsPanel .detailsForm .empty-field-error{
+  color: red;
+  font-weight: bold;
+  font-size: 17px;
 }
 
 .single-response{
@@ -359,18 +426,197 @@ Login
   text-align: center;
   margin-top: 25px;
 }
+.auth-form .error{
+  font-size: 15px;
+  color: red;
+}
 
 /* 
 ==================================
 Dashboard
 ==================================
 */
-.dashboard{
-  padding-top: 100px;
+.dashboard-container{
+  padding: 100px 15px 100px 15px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-container .dashboard-header{
+  width: 100%;
+  max-width: 1000px;
+  text-align: left;
+}
+.dashboard-container .dashboard-header h2{
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 125px -18px #222222;
+  width: fit-content;
+  margin: 0 auto 30px auto;
+  padding: 10px 40px;
+  border-radius: 20px;
+}
+.dashboard-container .dashboard-header p{
+  margin: 60px 0 30px 0;
+  background-color: white;
+  box-shadow: 0 0 10px #222222;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 5px 20px 5px 20px;
+}
+.dashboard-container .create-new-form-btn{
+  font-size: 20px;
+  padding: 13px 45px;
+  background-color: #fdd057;
+  color: white;
+  text-align: center;
+  display: block;
+  border-radius: 30px;
+  text-decoration: none;
+  margin: 5px auto;
+  max-width: 500px;
+  text-shadow: 0 0 10px #222222;
+  transition: all 0.2s;
+}
+.dashboard-container .create-new-form-btn:hover{
+  transform: translateY(-5px);
+}
+.dashboard-list-container{
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dashboard-list-container .no-forms-to-show-div{
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 0 10px #222222;
+  margin-top: 30px;
+  height: 100px;
+  border-radius: 20px;
+}
+.dashboard-list-container .no-forms-to-show-div p{
+  text-align: center;
+}
+.dashboard-list-container .dashboard-list-headings-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 10px #222222;
+  border-radius: 20px 20px 0 0;
+  height: 50px;
+  background-color: #e8e8e8;
+  text-align: center;
+}
+
+.dashboard-list-container .dashboard-list-headings-container .dashboard-list-heading,
+.dashboard-list-container .dashboard-list-item .single-dashboard-list-item{
+
+  padding: 0 20px;
+  /* border-width: 0 1px;
+  border-color: gray;
+  border-style: solid; */
+  height: fit-content;
+}
+
+.dashboard-list-container .dashboard-list-headings-container .name-heading{
+  flex: 2;
+}
+.dashboard-list-container .dashboard-list-headings-container .date-heading{
+  flex: 1;
+}
+.dashboard-list-container .dashboard-list-headings-container .responses-heading{
+  flex: 1;
+}
+.dashboard-list-container .dashboard-list-headings-container .empty-heading{
+  flex: 1;
+}
+
+.dashboard-list-container .dashboard-list-item{
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px 0;
+  box-shadow: 0 0 10px #222222;
+  background-color: white;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+
+.dashboard-list-container .dashboard-list-item .dashboard-formName{
+  font-weight: bold;
+  font-size: 19px;
+}
+.dashboard-list-container .dashboard-list-item .dashboard-list-item-name{
+  flex: 2;
+  text-align: center;
+}
+.dashboard-list-container .dashboard-list-item .dashboard-list-item-date{
+  flex: 1;
+  text-align: center;
+}
+.dashboard-list-container .dashboard-list-item .dashboard-list-item-response-num{
+  flex: 1;
+  text-align: center;
+}
+.dashboard-list-container .dashboard-list-item .dashboard-btns-right{
+  flex: 1;
+  text-align: center;
+}
+
+.dashboard-list-container .dashboard-list-item .single-dashboard-list-item .dashboard-editing-btns{
+  text-decoration: none;
+  background: #00a6dc;
+  color: white;
+  padding: 6px 7px;
+  font-size: 12px;
+  margin: 3px 5px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.dashboard-list-container .dashboard-list-item .single-dashboard-list-item .dashboard-editing-btns:hover{
+  background: #0082ad;
+}
+
+.dashboard-list-container .dashboard-list-item .view-responses-btn{
+  font-size: 15px;
+  padding: 3px 2px;
+  background-color: #00af00;
+  color: white;
+  text-align: center;
+  display: block;
+  border-radius: 35px;
+  text-decoration: none;
+  margin: 5px 0;
+  transition: all 0.1s;
+}
+.dashboard-list-container .dashboard-list-item .view-responses-btn:hover{
+  background-color: #018b01;
 }
 
 
 
+
+/* .dashboard-list-container .dashboard-list-headings-container .dashboard-list-heading{
+  flex: 1
+} */
 
 /* =============================== */
 

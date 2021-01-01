@@ -13,6 +13,19 @@ module.exports.get_form = (req, res) => {
         res.send(false);
     })
 }
+module.exports.delete_form = (req, res) => {
+    console.log("Inside the delete form function")
+    Form.findOneAndDelete({_id: req.body.formID })
+    .then((response)=>{
+        console.log("Form Deleted");
+        res.send(true);
+    })
+    .catch((err)=>{
+        console.log("Form could NOT be deleted");
+        console.log(err);
+        res.send(false);
+    }); 
+}
 
 module.exports.submit_form = (req, res) => {
     console.log("Form ready to be submitted");

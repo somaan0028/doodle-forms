@@ -25,7 +25,7 @@ class EditableForm extends Component {
 		elements: [],
 		generatedElementsList:[],
 		detailsPanel: null,
-		emptyFormNameError: '',
+		errorToDisplay: '',
 		displayData: false
 	}
 
@@ -93,7 +93,8 @@ class EditableForm extends Component {
 	addElement = (element) => {
 		var updatedElementsList = [...this.state.elements, element]
 		this.setState({
-			elements: updatedElementsList
+			elements: updatedElementsList,
+			errorToDisplay: ''
 		}, ()=>{
 			this.generateElements();
 			console.log(this.state.elements);
@@ -116,9 +117,9 @@ class EditableForm extends Component {
 	}
 
 	updateForm = () => {
-		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "") {
+		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "" && this.state.elements.length !== 0) {
 			this.setState({
-				emptyFormNameError: ''
+				errorToDisplay: ''
 			})			
 			axios({
 				method: 'post',
@@ -135,10 +136,14 @@ class EditableForm extends Component {
 			.catch(function (response) {
 				console.log("could not send date")
 			})
-		}else{
+		}else if(this.state.elements.length == 0){
 			console.log("Name field is empty")
 			this.setState({
-				emptyFormNameError: <p className="error-msg">Please Enter a Name for the Form</p>
+				errorToDisplay: <p className="error-msg">Please add at least one Form Element</p>
+			})
+		}else{
+			this.setState({
+				errorToDisplay: <p className="error-msg">Please Enter a Name for the Form</p>
 			})
 		}
 	}
@@ -209,7 +214,7 @@ class EditableForm extends Component {
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
 				<AddFormElements addElement={(element)=> this.addElement(element)}/>
-				{ this.state.emptyFormNameError }
+				{ this.state.errorToDisplay }
 				<button onClick={this.updateForm} className="end-of-form-btn">Update</button>
 			</div>
 			);
