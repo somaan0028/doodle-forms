@@ -59,7 +59,7 @@ class TextareaInputDetails extends Component {
           <form className="detailsForm">
               <h2 className="details-panel-heading">Add a Textarea</h2>
               <input type="text" id="question" placeholder="Enter the Question" value={this.state.question} onChange={this.handleQuestion} autoComplete="off" />
-              <input type="number" id="maxlength" placeholder="Enter Max Limit (Optional)" value={this.state.maxlength} onChange={this.handleQuestion} autoComplete="off" />
+              <input type="number" id="maxlength" placeholder="Character Limit (Optional)" value={this.state.maxlength} onChange={this.handleQuestion} autoComplete="off" />
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex}>{this.state.action}</button>

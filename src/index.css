@@ -206,6 +206,11 @@ Form Elements
   outline: none;
   border: 2px solid green;
 }
+.theForm .form-element .char-limit-textarea{
+  color: green;
+  text-align: right;
+  margin-top: 7px;
+}
 .theForm .form-element .radio-element-input,
 .theForm .form-element .checkbox-element-input{
   margin-right: 10px;
