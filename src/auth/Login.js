@@ -23,40 +23,46 @@ class Login extends Component {
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
 
-    // form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      // reset errors
-      emailError.textContent = '';
-      passwordError.textContent = '';
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
+    // get values
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+    
+    // prevents empty fields
+    if (!email || !email.replace(/\s/g,"")) {
+      emailError.textContent = 'Please Enter an Email';
+      return;
+    }else if(!password){
+      passwordError.textContent = 'Please Enter a Password';
+      return;
+    }
 
-      // get values
-      const email = form.email.value;
-      const password = form.password.value;
-      console.log(email, password);
-
-      try {
-        const res = await fetch('/login', { 
-          method: 'POST', 
-          body: JSON.stringify({ email, password }),
-          headers: {'Content-Type': 'application/json'}
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.errors) {
-          emailError.textContent = data.errors.email;
-          passwordError.textContent = data.errors.password;
-        }
-        if (data.user) {
-          // location.assign('/');
-          this.props.history.push("/dashboard");
-        }
-
+    try {
+      const res = await fetch('/login', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
       }
-      catch (err) {
-        console.log(err);
+      if (data.user) {
+        // location.assign('/');
+        this.props.history.push("/dashboard");
       }
-    // });
+
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   render(){

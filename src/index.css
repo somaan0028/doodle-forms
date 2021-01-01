@@ -79,7 +79,12 @@ Form Styling
 
 .formName-formToFill{
   text-align: center;
-  margin: 40px 0;
+  background-color: white;
+  box-shadow: 0 0 125px -18px #222222;
+  width: fit-content;
+  margin: 0 auto 40px auto;
+  padding: 10px 40px;
+  border-radius: 20px;
 }
 
 .theForm .end-of-form-btn,
@@ -370,7 +375,7 @@ Login
 
 .auth-form{
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
@@ -443,6 +448,22 @@ Dashboard
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.dashboard-container .dashboard-flash-msg{
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  background-color: #1f1f1f;
+  box-shadow: 0 0 45px -5px #222222;
+  width: fit-content;
+  margin: 0 auto 30px auto;
+  padding: 10px 40px;
+  border-radius: 20px;
+  color: white;
+  transition: all 3s;
+  opacity: 1;
 }
 
 .dashboard-container .dashboard-header{
@@ -522,11 +543,7 @@ Dashboard
 
 .dashboard-list-container .dashboard-list-headings-container .dashboard-list-heading,
 .dashboard-list-container .dashboard-list-item .single-dashboard-list-item{
-
   padding: 0 20px;
-  /* border-width: 0 1px;
-  border-color: gray;
-  border-style: solid; */
   height: fit-content;
 }
 

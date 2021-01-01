@@ -22,41 +22,49 @@ class Signup extends Component {
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
 
-    // form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      // reset errors
-      emailError.textContent = '';
-      passwordError.textContent = '';
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
 
-      // get values
-      const email = form.email.value;
-      const password = form.password.value;
-      console.log(email, password);
-      try {
-        const res = await fetch('/signup', { 
-          method: 'POST', 
-          body: JSON.stringify({ email, password }),
-          headers: {'Content-Type': 'application/json'}
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.errors) {
-          emailError.textContent = data.errors.email;
-          passwordError.textContent = data.errors.password;
-        }
-        if (data.user) {
-          // location.assign('/');
-          this.props.history.push("/dashboard");
-        }
+    // get values
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
 
+    // prevents empty fields
+    if (!email || !email.replace(/\s/g,"")) {
+      emailError.textContent = 'Please Enter an Email';
+      return;
+    }else if(!password){
+      passwordError.textContent = 'Please Enter a Password';
+      return;
+    }
+
+    try {
+      const res = await fetch('/signup', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
       }
-      catch (err) {
-        console.log(err);
-        console.log("Req not made...")
+      if (data.user) {
+        // location.assign('/');
+        this.props.history.push("/dashboard");
       }
 
-    // });
+    }
+    catch (err) {
+      console.log(err);
+      console.log("Req not made...")
+    }
+
   }
 
   render(){
@@ -66,10 +74,10 @@ class Signup extends Component {
         <form className="auth-form signup-form" onSubmit={this.handleSubmit}>
             <h2 className="auth-heading">Sign up</h2>
             {/* <label className="auth-labels" htmlFor="email">Email</label> */}
-            <input className="auth-inputs" type="text" name="email" placeholder="Email" required />
+            <input className="auth-inputs" type="text" name="email" placeholder="Email" />
             <div className="email error"></div>
             {/* <label className="auth-labels" htmlFor="password">Password</label> */}
-            <input className="auth-inputs" type="password" name="password" placeholder="Password" required />
+            <input className="auth-inputs" type="password" name="password" placeholder="Password" />
             <div className="password error"></div>
             <button className="auth-buttons">Sign up</button>
             <button className="demo-user">Login In using Demo User</button>

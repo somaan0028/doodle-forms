@@ -14,7 +14,8 @@ class Dashboard extends Component {
     dashboard: null,
     listOfForms: null,
     generatedFormList: null,
-    displayData: false
+    displayData: false,
+    flashMsg: ''
   }
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
@@ -49,6 +50,14 @@ class Dashboard extends Component {
       generatedFormList: generatedFormList
     });
   }
+  
+  hideFlashMsg = ()=>{
+    setTimeout(()=>{
+      document.querySelector(".dashboard-flash-msg").style.opacity = 0;
+
+    }, 1000);
+    setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
+  }
 
   deleteForm = (e) =>{
     console.log("delete the form: " + e.target.id);
@@ -68,7 +77,11 @@ class Dashboard extends Component {
         });
         this.setState({
           listOfForms: newFormList,
-        }, ()=>{this.generateFormList()});
+          flashMsg: <p className="dashboard-flash-msg">Form Successfully Deleted!</p>
+        }, ()=>{
+          this.generateFormList();
+          this.hideFlashMsg();
+        });
 
       }else{
         console.log("couldn't delete form. Server returned False")
@@ -78,14 +91,26 @@ class Dashboard extends Component {
       console.log("couldn't delete form. In catch method of /deleteform ")
     })
   }
+
   copyLink = (e) =>{
     console.log("copy link for form: " + e.target.id);
-    var textToCopy = "http://localhost:3000/edit/" + e.target.id;
-    // if (window.getSelection) {window.getSelection().removeAllRanges();}
-    // else if (document.selection) {document.selection.empty();}
-    textToCopy.select();
-    // textToCopy.setSelectionRange(0, 99999); /* For mobile devices */
-    document.execCommand("copy");
+    var textToCopy = "http://localhost:3000/form/" + e.target.id;
+    if (window.getSelection) {window.getSelection().removeAllRanges();}
+    else if (document.selection) {document.selection.empty();}
+    
+    const el = document.createElement('textarea');
+    el.value = textToCopy;
+    document.body.appendChild(el);
+    el.select();
+    el.setSelectionRange(0, 99999); /* For mobile devices */
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this.setState({
+      flashMsg: <p className="dashboard-flash-msg">Link Copied!</p>
+    }, this.hideFlashMsg
+  )
+
 
   }
 
@@ -108,6 +133,7 @@ class Dashboard extends Component {
             </div>
             {this.state.generatedFormList}
           </div>
+          {this.state.flashMsg}
         </div>
       );
     }else{
