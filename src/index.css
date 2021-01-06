@@ -361,11 +361,91 @@ Details Panels
   font-size: 17px;
 }
 
-.single-response{
-  border: 2px solid brown;
+/* 
+=============================
+Responses
+=============================
+*/
+.responses{
+  padding: 100px 0px 200px 0px;
+}
+.responses .responses-heading{
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 110px 0px rgba(0, 0, 0, 0.5);
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto 50px auto;
+  padding: 10px 40px;
+  border-radius: 20px;
+}
+.responses .form-name{
+  margin: 0 auto 30px auto;
+  background-color: white;
   box-shadow: 0 0 10px #222222;
-  padding: 20px;
+  border-radius: 15px;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 5px 20px 5px 20px;
+  font-size: 27px;
+}
+.responses .form-details-container{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 20px;
+}
+.responses .form-detail{
+  background-color: white;
+  box-shadow: 0 0 10px #222222;
+  border-radius: 20px;
+  padding: 10px 12px;
+}
+.responses .responses-list-container{
+  /* display: flex; */
+}
+
+.single-response{
+  background-color: white;
+  box-shadow: 0 0 20px #222222;
+  padding: 30px;
   margin: 20px;
+  border-radius: 30px;
+}
+.single-response .single-response-element{
+  width: fit-content;
+}
+
+.single-response .response-question{
+  font-size: 18px;
+  margin: 15px 0 0 0;
+  font-weight: bold;
+}
+.single-response p{
+  font-size: 17px;
+}
+.single-response .response-number{
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+.responses .back-to-dashboard{
+  display: block;
+  width: 250px;
+  margin: 30px auto;
+  padding: 20px 30px;
+  background-color: rgb(2, 126, 2);
+  border: 0;
+  text-align: center;
+  color: white;
+  transition: all 0.3s;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 30px;
+}
+.responses .back-to-dashboard:hover{
+  background-color: rgb(0, 83, 0);
 }
 
 /* 
