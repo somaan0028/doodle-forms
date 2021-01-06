@@ -2,8 +2,21 @@ import React, { Component } from 'react';
 import {NavLink, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './Navbar.css';
+// import './navbar_responsive.js';
 
 class Navbar extends Component {
+
+    componentDidMount(){
+        const burgerIcon=document.querySelector("#burger");
+        const items = document.querySelectorAll(".item");
+        console.log("adding eventlisteners");
+        burgerIcon.addEventListener('click', () => {
+            items.forEach((item,index)=>{
+            item.classList.toggle("active")
+            });
+            burgerIcon.classList.toggle('mark')
+        });
+    }
 
     handleLogout = (e) => {
         e.preventDefault();
@@ -32,7 +45,7 @@ class Navbar extends Component {
     
                         <li className="toggle"><span className="bars"></span></li>
                         <li className="toggle">
-                            <div className="burger">
+                            <div id="burger">
                                 <div className="line1"></div>
                                 <div className="line2"></div>
                                 <div className="line3"></div>
@@ -53,7 +66,7 @@ class Navbar extends Component {
     
                         <li className="toggle"><span className="bars"></span></li>
                         <li className="toggle">
-                            <div className="burger">
+                            <div id="burger">
                                 <div className="line1"></div>
                                 <div className="line2"></div>
                                 <div className="line3"></div>

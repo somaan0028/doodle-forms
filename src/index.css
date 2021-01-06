@@ -216,6 +216,50 @@ Form Elements
   margin-right: 10px;
 }
 
+.create-form h2,
+.editable-form h2{
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 110px 0px rgba(0, 0, 0, 0.5);
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto 50px auto;
+  padding: 10px 40px;
+  border-radius: 20px;
+}
+
+.editable-form .edit-form-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  max-width: 750px;
+  margin: 10px auto 30px auto;
+}
+.editable-form .edit-form-header p{
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 0 10px #222222;
+  border-radius: 20px;
+  font-size: 17px;
+}
+.editable-form .edit-form-header button{
+  font-size: 15px;
+  padding: 16px 20px;
+  background-color: #00af00;
+  color: white;
+  text-align: center;
+  display: block;
+  border: 0;
+  border-radius: 35px;
+  text-decoration: none;
+  transition: all 0.1s;
+  cursor: pointer;
+  box-shadow: 0 0 10px #222222;
+}
+.editable-form .edit-form-header button:hover{
+  background-color: #015301;
+}
 /* 
 ========================================
 Add form
@@ -534,7 +578,7 @@ Dashboard
   justify-content: center;
   align-items: center;
 }
-.dashboard-container .dashboard-flash-msg{
+.dashboard-flash-msg{
   position: fixed;
   top: 25%;
   left: 50%;

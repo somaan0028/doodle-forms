@@ -26,7 +26,9 @@ class EditableForm extends Component {
 		generatedElementsList:[],
 		detailsPanel: null,
 		errorToDisplay: '',
-		displayData: false
+		time: '',
+		displayData: false,
+		flashMsg: ''
 	}
 
 	generateElements = () => {
@@ -66,6 +68,41 @@ class EditableForm extends Component {
 		// console.log(generatedElements);
 	}
 	
+	convertUnix = (unixTime) =>{
+        // Unixtimestamp
+        var unixtimestamp = unixTime;
+
+        // Months array
+        var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        // Convert timestamp to milliseconds
+        var date = new Date(unixtimestamp*1000);
+
+        // Year
+        var year = date.getFullYear();
+
+        // Month
+        var month = months_arr[date.getMonth()];
+
+        // Day
+        var day = date.getDate();
+
+        // Hours
+        var hours = date.getHours();
+
+        // Minutes
+        var minutes = "0" + date.getMinutes();
+
+        // Seconds
+        var seconds = "0" + date.getSeconds();
+
+        // Display date time in MM-dd-yyyy h:m:s format
+        var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        
+        // return convdataTime;
+        return convdataTime
+        
+    }
 	componentDidMount(){
 
 		const { checkAuthAndReturnData } = this.context;
@@ -79,9 +116,11 @@ class EditableForm extends Component {
 		.then((result)=>{
 			console.log("Data from server checkAuthAndReturnData() ");
 			console.log(result);
+			var convertedTime = this.convertUnix(result.time);
 			this.setState({
 				formName: result.formName,
 				elements: result.formElements,
+				time: convertedTime,
 				displayData: true
 			}, ()=>{this.generateElements()})
 		})
@@ -202,15 +241,53 @@ class EditableForm extends Component {
 		});
 	}
 
+	hideFlashMsg = ()=>{
+		setTimeout(()=>{
+			document.querySelector(".dashboard-flash-msg").style.opacity = 0;
+
+		}, 1000);
+			setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
+	}
+
+	copyLink = (e) =>{
+		var formId = window.location.pathname.substr(6)
+		console.log("copy link for form: " + formId);
+		var textToCopy = "http://localhost:3000/form/" + formId;
+		if (window.getSelection) {window.getSelection().removeAllRanges();}
+		else if (document.selection) {document.selection.empty();}
+		
+		const el = document.createElement('textarea');
+		el.value = textToCopy;
+		document.body.appendChild(el);
+		el.select();
+		el.setSelectionRange(0, 99999); /* For mobile devices */
+		document.execCommand('copy');
+		document.body.removeChild(el);
+	
+		this.setState({
+		  flashMsg: <p className="dashboard-flash-msg">Link Copied!</p>
+		}, this.hideFlashMsg
+	  )
+	
+	
+	}
+
 	render() {
 		if (this.state.displayData) {
 			return (
 			<div className="theForm editable-form">
 			    <Navbar isAuth={true} />
+				<h2>Edit Form</h2>
+				<div className="edit-form-header">
+					<p>Created On: {this.state.time}</p>
+                    <button className="dashboard-editing-btns" onClick={this.copyLink}>Copy Link</button>
+				</div>
+				{this.state.flashMsg}
 				<div className="form-name-container">
 					<label>Name of Form: </label>
 					<input className="formName-input" value={this.state.formName} onChange={(e)=>{e.preventDefault(); this.setState({formName: e.target.value})}} type="text" name="formName" autoComplete="off" />
 				</div>
+
 				{ this.state.generatedElementsList }
 				{ this.state.detailsPanel }
 				<AddFormElements addElement={(element)=> this.addElement(element)}/>

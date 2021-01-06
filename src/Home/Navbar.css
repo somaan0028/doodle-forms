@@ -33,6 +33,7 @@ nav {
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: 100;
 }
 nav ul {
     list-style-type: none;
@@ -128,8 +129,11 @@ nav .toggle a {
   .toggle {
     cursor:pointer;
   }
-  
-  .burger div {
+  #burger{
+    padding: 4px;
+  }
+
+  #burger div {
     width: 30px;
     height: 3px;
     background-color: #3c475f;

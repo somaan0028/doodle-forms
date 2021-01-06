@@ -196,6 +196,7 @@ class CreateForm extends Component {
 			return (
 			<div className="theForm create-form">
 			    <Navbar isAuth={true} />
+				<h2>Create Form</h2>
 				<div className="form-name-container">
 					<label>Name of Form: </label>
 					<input className="formName-input" onChange={(e)=>{this.setState({formName: e.target.value})}} type="text" name="form-name" placeholder="Name of Form" autoComplete="off" />
