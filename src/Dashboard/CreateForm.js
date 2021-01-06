@@ -111,7 +111,9 @@ class CreateForm extends Component {
 				url: '/saveform',
 				data: {
 					formName: this.state.formName,
-					formElements: this.state.elements
+					formElements: this.state.elements,
+					time: Math.floor((new Date()).getTime() / 1000),
+					numOfResponses: 0 
 				}
 			})
 			.then((response) => {

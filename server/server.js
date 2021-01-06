@@ -57,15 +57,16 @@ app.post('/authtest', (req, res)=>{
             if (req.body.requiredData == 'AllCreatedForms') {
                 console.log("now have to return all created forms");
 
-                Form.find({userID: req.user._id}, {formName: 1, _id: 1})
+                Form.find({userID: req.user._id}, {formName: 1, _id: 1, time:1, numOfResponses: 1})
                 .then((forms)=>{
+                    console.log(forms);
                     res.send(forms);
                 })
                 .catch((err)=>{
                     console.log(err);
                     res.redirect('/pagenotfound');
-                    // res.send(false);
                 })
+
             }else if (req.body.requiredData == 'SingleForm') {
                 console.log("Now have to send data for " + req.body.formID);
                 Form.findOne({_id: req.body.formID})

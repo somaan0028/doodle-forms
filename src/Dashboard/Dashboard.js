@@ -15,7 +15,7 @@ class Dashboard extends Component {
     listOfForms: null,
     generatedFormList: null,
     displayData: false,
-    flashMsg: ''
+    flashMsg: '',
   }
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
@@ -26,7 +26,8 @@ class Dashboard extends Component {
       console.log(result);
       this.setState({
         listOfForms: result,
-        displayData: true
+        displayData: true,
+
       }, ()=>{this.generateFormList()})
     })
     .catch((err)=>{

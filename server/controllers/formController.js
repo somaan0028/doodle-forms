@@ -34,7 +34,8 @@ module.exports.submit_form = (req, res) => {
     delete response.formID;
     console.log(response);
     Form.findOneAndUpdate({_id: formID},{ 
-        "$push": { "responses": response } 
+        "$push": { "responses": response },
+        "$inc": {"numOfResponses": 1}
     }, {new: true})
     .then((updatedForm)=>{
         console.log("Form Updated");
@@ -56,7 +57,9 @@ module.exports.save_form = (req, res) => {
         formName: req.body.formName,
         userID: req.user._id,
         formElements: req.body.formElements,
-        responses: []
+        responses: [],
+        time: req.body.time,
+        numOfResponses: req.body.numOfResponses
         
     }).save().then((newForm) => {
         // Once new form created, redirect user to login page.
