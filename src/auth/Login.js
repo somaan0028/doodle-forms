@@ -107,7 +107,7 @@ class Login extends Component {
           <input className="auth-inputs" type="password" name="password" placeholder="Password" />
           <div className="password error"></div>
           <button className="auth-buttons">login</button>
-            <button onClick={this.demo_login} className="demo-user">Login In using Demo User</button>
+            <button onClick={this.demo_login} className="demo-user">Login In as Demo User</button>
           <p className="auth-redirect">Don't have an account? <NavLink to="/signup" >Sign Up</NavLink></p>
         </form>
       </div>

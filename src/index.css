@@ -713,7 +713,46 @@ Dashboard
   background-color: #018b01;
 }
 
+/* 
+==================================
+Dashboard
+==================================
+*/
 
+.submission-status-container{
+  padding: 20px;
+  background-color: whitesmoke;
+  border-radius: 20px;
+  box-shadow: 0 0 30px #222222;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 35px auto;
+  text-align: center;
+}
+.submission-status-container h4{
+  padding: 20px;
+}
+.submission-status-container p{
+  padding: 20px;
+}
+.submission-status-container button{
+  font-size: 15px;
+  padding: 16px 20px;
+  background-color: #00af00;
+  color: white;
+  text-align: center;
+  display: block;
+  border: 0;
+  border-radius: 35px;
+  text-decoration: none;
+  margin: 5px auto;
+  transition: all 0.1s;
+  cursor: pointer;
+}
+
+.submission-status-container button:hover{
+  background-color: #008100;
+}
 
 
 /* .dashboard-list-container .dashboard-list-headings-container .dashboard-list-heading{
