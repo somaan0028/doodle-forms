@@ -54,8 +54,11 @@ class Dashboard extends Component {
   
   hideFlashMsg = ()=>{
     setTimeout(()=>{
-      document.querySelector(".dashboard-flash-msg").style.opacity = 0;
-
+      var flashMsg = document.querySelector(".dashboard-flash-msg");
+      if (flashMsg) {
+        flashMsg.style.opacity = 0;
+      }
+      console.log("fading flash msg");
     }, 1000);
     setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
   }

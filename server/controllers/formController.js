@@ -83,9 +83,10 @@ module.exports.update_form = (req, res) => {
     }, {new: true})
     .then((updatedForm)=>{
         console.log("Form Updated");
-        res.send("Updated the form");
+        res.send(true);
     })
     .catch((err)=>{
         console.log(err);
+        res.send(false);
     })
 }

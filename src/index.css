@@ -8,6 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
@@ -55,6 +56,58 @@ Home
   padding: 0;
   padding-top: 75px;
 }
+.home-container .home{
+  max-width: 100vw;
+}
+.home-container .home-text-div{
+  position: absolute;
+  top: 50%;
+  transform: translate(0px, -50%);
+  width: fit-content;
+  max-width: 330px;
+  background-color: white;
+  box-shadow: 0 0 50px #222222;
+  padding: 35px;
+  border-radius: 40px;
+  margin: 20px 0 0 40px;
+}
+.home-container .home-text-div h1{
+  font-family: cursive;
+  font-size: 2.65em;
+  margin-bottom: 20px;
+  color: #ff6841;
+  font-weight: bolder;
+}
+.home-container .home-text-div p{
+  margin-bottom: 25px;
+}
+.home-container .home-text-div .home-btns{
+  padding: 15px 20px;
+  background-color: #00dabd;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  margin: 22px 10px 0 0;
+}
+
+.home-container .home-text-div .home-btns:hover{
+  background-color: #00b89f;
+}
+.home-container img{
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, 20%);
+  box-shadow: 0 0 50px #222222;
+  border-radius: 150px;
+  z-index: -1;
+  border-bottom-left-radius: 0;
+}
 
 /* 
 ==========================================
@@ -91,7 +144,7 @@ Form Styling
 .theForm form .end-of-form-btn{
   margin: 40px auto;
   padding: 20px 30px;
-  background-color: rgb(2, 126, 2);
+  background-color: #00af00;
   border: 0;
   color: white;
   text-align: center;
@@ -216,8 +269,8 @@ Form Elements
   margin-right: 10px;
 }
 
-.create-form h2,
-.editable-form h2{
+.create-form .create-form-heading,
+.editable-form .editable-form-heading{
   text-align: center;
   background-color: white;
   box-shadow: 0 0 110px 0px rgba(0, 0, 0, 0.5);
@@ -367,7 +420,7 @@ Details Panels
   transition: all 0.1s;
 }
 .detailsPanel .detailsForm button:hover{
-  background-color: #00af9b;
+  background-color: #009686;
 }
 
 .detailsPanel .detailsForm .details-panel-btns{
@@ -593,6 +646,7 @@ Dashboard
   color: white;
   transition: all 3s;
   opacity: 1;
+  z-index: 13;
 }
 
 .dashboard-container .dashboard-header{
@@ -797,6 +851,119 @@ Dashboard
 .submission-status-container button:hover{
   background-color: #008100;
 }
+
+/* 
+==================================
+404 Page
+==================================
+*/
+
+.page-404{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 0 0 20px rgba(34, 34, 34, 0.616);
+  padding: 20px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.page-404 h2{
+  font-size: 110px;
+  margin: 0 10px;
+}
+.page-404 p{
+  margin-top: 10px;
+}
+.page-404 .btn-404{
+  margin: 20px auto;
+  padding: 20px 30px;
+  background-color: #00af00;
+  border: 0;
+  color: white;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+.page-404 .btn-404:hover{
+  background-color: #008d00;
+}
+
+
+@media all and (max-width: 400px) {
+  .home-container .home-text-div{
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    text-align: center;
+  }
+  .home-container img{
+    display: none;
+  }
+  .dashboard-list-container,
+  .dashboard-list-container .dashboard-list-item .view-responses-btn,
+  .dashboard-list-container .dashboard-list-item .dashboard-formName,
+  .dashboard-list-container .dashboard-list-item .single-dashboard-list-item .dashboard-editing-btns,
+  .dashboard-list-container .dashboard-list-item .dashboard-list-item-date{
+    font-size: 12px;
+  }
+  .dashboard-list-container .dashboard-list-item .view-responses-btn{
+    border-radius: 5px;
+  }
+  .dashboard-list-container .dashboard-list-item .single-dashboard-list-item .dashboard-editing-btns{
+    padding: 6px 2px;
+  }
+  .dashboard-list-container .dashboard-list-item .dashboard-formName{
+    font-size: 16px;
+  }
+
+  .theForm .form-name-container{
+    flex-direction: column;
+  }
+  .theForm .form-name-container .formName-input{
+    margin: 0;
+  }
+  .editable-form .edit-form-header button{
+    padding: 16px 4px;
+  }
+  .editable-form .edit-form-header p{
+    padding: 6px;
+  }
+  .detailsPanel .detailsForm{
+    width: 90%;
+    padding: 38px;
+  }
+  .page-404{
+    width: 90%;
+  }
+  .page-404 h2{
+    font-size: 85px;
+  }
+  .auth-form{
+    width: 90%;
+  }
+  .responses .form-details-container{
+    flex-direction: column;
+    align-items: center;
+  }
+  .responses .form-detail{
+    margin: 5px;
+  }
+  .submission-status-container{
+    width: 90%;
+  }
+}
+
+
+
 
 
 /* .dashboard-list-container .dashboard-list-headings-container .dashboard-list-heading{

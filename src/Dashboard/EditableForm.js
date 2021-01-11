@@ -97,7 +97,8 @@ class EditableForm extends Component {
         var seconds = "0" + date.getSeconds();
 
         // Display date time in MM-dd-yyyy h:m:s format
-        var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        // var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2);
         
         // return convdataTime;
         return convdataTime
@@ -169,11 +170,20 @@ class EditableForm extends Component {
 					formName: this.state.formName
 				}
 			})
-			.then(function (response) {
+			.then( (response)=> {
 				console.log(response.data);
+				if(response.data){
+					this.setState({
+						flashMsg: <p className="dashboard-flash-msg">Form Updated</p>
+					}, this.hideFlashMsg)
+				}else{
+					this.setState({
+						flashMsg: <p className="dashboard-flash-msg">Could NOT Update Form!</p>
+					}, this.hideFlashMsg)
+				}
 			})
-			.catch(function (response) {
-				console.log("could not send date")
+			.catch( (response)=> {
+				console.log("could not send data")
 			})
 		}else if(this.state.elements.length == 0){
 			console.log("Name field is empty")
@@ -241,12 +251,22 @@ class EditableForm extends Component {
 		});
 	}
 
+	// hideFlashMsg = ()=>{
+	// 	setTimeout(()=>{
+	// 		document.querySelector(".dashboard-flash-msg").style.opacity = 0;
+
+	// 	}, 1000);
+	// 		setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
+	// }
 	hideFlashMsg = ()=>{
 		setTimeout(()=>{
-			document.querySelector(".dashboard-flash-msg").style.opacity = 0;
-
+		  var flashMsg = document.querySelector(".dashboard-flash-msg");
+		  if (flashMsg) {
+			flashMsg.style.opacity = 0;
+		  }
+		  console.log("fading flash msg");
 		}, 1000);
-			setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
+		setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
 	}
 
 	copyLink = (e) =>{
@@ -277,7 +297,7 @@ class EditableForm extends Component {
 			return (
 			<div className="theForm editable-form">
 			    <Navbar isAuth={true} />
-				<h2>Edit Form</h2>
+				<h2 className="editable-form-heading">Edit Form</h2>
 				<div className="edit-form-header">
 					<p>Created On: {this.state.time}</p>
                     <button className="dashboard-editing-btns" onClick={this.copyLink}>Copy Link</button>

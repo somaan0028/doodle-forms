@@ -44,7 +44,7 @@ app.post('/authtest', (req, res)=>{
 
     // check json web token exists & is verified
     if (token) {
-        jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+        jwt.verify(token, keys.jwtTokenKey.tokenKey, (err, decodedToken) => {
         if (err) {
             console.log(err.message);
             res.send(false);
