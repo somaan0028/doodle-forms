@@ -1,6 +1,10 @@
 {
   "name": "doodle-forms",
   "version": "0.1.0",
+  "engines": {
+    "node": "12.14.1",
+    "npm": "6.13.4"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
@@ -16,7 +20,8 @@
   },
   "proxy": "http://localhost:5000/",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && node backend/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

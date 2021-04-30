@@ -137,6 +137,8 @@ app.get('/authtest', (req, res)=>{
 app.use(authRoutes);
 app.use(formRoutes);
 
-app.listen(5000, () => {
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
     console.log('app now listening for requests on port 5000');
 });
