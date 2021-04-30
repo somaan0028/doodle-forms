@@ -10,6 +10,7 @@ class Login extends Component {
   }
 
   componentDidMount(){
+    // if user is authenticated, then redirect to dashboard
     axios.get('/authtest')
     .then((result)=>{
       if (result.data) {
@@ -18,6 +19,7 @@ class Login extends Component {
     })
   }
 
+  // logs in as demo user
   demo_login = async (e) => {
 
     e.preventDefault();
@@ -31,13 +33,8 @@ class Login extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       const data = await res.json();
-      console.log(data);
-      // if (data.errors) {
-      //   emailError.textContent = data.errors.email;
-      //   passwordError.textContent = data.errors.password;
-      // }
+
       if (data.user) {
-        // location.assign('/');
         this.props.history.push("/dashboard");
       }
 
@@ -47,6 +44,7 @@ class Login extends Component {
     }
   }
 
+  // form submit
   handleSubmit = async (e) => {
     const form = document.querySelector('form');
     const emailError = document.querySelector('.email.error');
@@ -60,7 +58,6 @@ class Login extends Component {
     // get values
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
     
     // prevents empty fields
     if (!email || !email.replace(/\s/g,"")) {
@@ -78,13 +75,11 @@ class Login extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       const data = await res.json();
-      console.log(data);
       if (data.errors) {
         emailError.textContent = data.errors.email;
         passwordError.textContent = data.errors.password;
       }
       if (data.user) {
-        // location.assign('/');
         this.props.history.push("/dashboard");
       }
 
@@ -100,10 +95,8 @@ class Login extends Component {
 			  <Navbar isAuth={false} />
         <form className="auth-form login-form" onSubmit={this.handleSubmit}>
           <h2 className="auth-heading">Login</h2>
-          {/* <label className="auth-labels" htmlFor="email">Email</label> */}
           <input className="auth-inputs" type="text" name="email" placeholder="Email" />
           <div className="email error"></div>
-          {/* <label className="auth-labels" htmlFor="password">Password</label> */}
           <input className="auth-inputs" type="password" name="password" placeholder="Password" />
           <div className="password error"></div>
           <button className="auth-buttons">login</button>

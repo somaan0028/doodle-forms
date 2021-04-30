@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// this is displayed when the user wishes to add a checkbox into the form
 class CheckboxesDetailsPanel extends Component {
 
   state = {
@@ -12,6 +13,7 @@ class CheckboxesDetailsPanel extends Component {
   }
 
   componentDidMount(){
+    // if default values sent in the props, it means user wishes to update an element
     if (this.props.defaultValues) {
       this.setState({
         question: this.props.defaultValues.question,
@@ -23,7 +25,6 @@ class CheckboxesDetailsPanel extends Component {
       });
 
     }else{
-      console.log("Don't have default values");
       this.setState({
         optionValues: [
             <input type="text" id="option1" key="1" value={this.state.values[0]} onChange={this.handleOptionValues} placeholder="Enter an Option" autoComplete="off" />
@@ -34,14 +35,13 @@ class CheckboxesDetailsPanel extends Component {
 
   }
 
+  // creates a list of the options added in the checkbox element
   generateElements = () => {
-    console.log("generating elements");
-    console.log(this.props.defaultValues);
+
     var optionValues;
 
     optionValues = this.state.values.map((value, index)=>{
       var key = index+1;
-      console.log("creating optionValues");
       return <input type="text" id={`option${key}`} key={key} value={this.state.values[index]} onChange={this.handleOptionValues} placeholder="Enter an Option" autoComplete="off" />
     });
     this.setState({
@@ -49,6 +49,7 @@ class CheckboxesDetailsPanel extends Component {
     });
   }
 
+  // sends back the newly created form element using the "sendElement" function passed down through props
   createElement = (e) => {
     e.preventDefault();
     
@@ -58,15 +59,12 @@ class CheckboxesDetailsPanel extends Component {
       values: this.state.values
     }
     var valueIsEmpty = element.values.includes("");
-    console.log("Value of valueIsEmpty: " + valueIsEmpty);
 
     if(element.question === '' || valueIsEmpty){
-      console.log("Empty field");
       this.setState({
         emptyFieldError: 'Please fill all the fields'
       })
     }else{
-      console.log("Create Element Ran");
       this.setState({
         emptyFieldError: ''
       });
@@ -75,6 +73,7 @@ class CheckboxesDetailsPanel extends Component {
     }
   }
 
+  // state updated whenever user types in the 'question' field for the creation of a new element
   handleQuestion = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -82,12 +81,10 @@ class CheckboxesDetailsPanel extends Component {
   }
 
   handleOptionValues = (e) => {
-    console.log(e.target.id);
     var values = [...this.state.values];
     var elementID = e.target.id;
     var index = parseInt(elementID.substr(6)) - 1;
     values[index] = e.target.value;
-    // console.log(index);
     this.setState({
         values: values
     }, ()=>{
@@ -138,8 +135,8 @@ class CheckboxesDetailsPanel extends Component {
               <input type="text" id="question" value={this.state.question} placeholder="Enter the Question" onChange={this.handleQuestion} autoComplete="off" />
               {this.state.optionValues}
               <div className="add-remove-options-div">
-                <button onClick={this.addOptionValue} ><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button onClick={this.removeOptionValue} ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button onClick={this.addOptionValue} ><i className="fa fa-plus" aria-hidden="true"></i></button>
+                <button onClick={this.removeOptionValue} ><i className="fa fa-minus" aria-hidden="true"></i></button>
               </div>
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">

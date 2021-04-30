@@ -16,6 +16,8 @@ import AddFormElements from './AddFormElements';
 import { AuthContext } from '../Context/AuthContext';
 import loadingGif from '../loading_gif.gif'
 
+// this component is used when user wants to edit the form after it has already created it.
+// most of the methods are the same as in the CreateForm component so refer to it.
 class EditableForm extends Component {
 
 	static contextType = AuthContext;
@@ -37,26 +39,21 @@ class EditableForm extends Component {
 
 		generatedElements = elements.map((element, index)=>{
 			var elementType = element.type;
-			// var generatedElement;
+
 			switch(elementType) {
 				case "Single-line":
-					console.log("Its a single line element");
 					return <SingleLine question={element.question} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Textarea":
-					console.log("Its a single line element");
 					return <Textarea question={element.question} maxlength={element.maxlength} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Radio":
-					console.log("Its a Radio element");
 					return <RadioBtn question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Checkboxes":
-					console.log("Its a Checkbox element");
 					return <Checkboxes question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				default:
-					console.log("No element");
 					return null;
 			}
 		});
@@ -65,7 +62,6 @@ class EditableForm extends Component {
 		this.setState({
 			generatedElementsList: generatedElements
 		});
-		// console.log(generatedElements);
 	}
 	
 	convertUnix = (unixTime) =>{
@@ -103,20 +99,21 @@ class EditableForm extends Component {
         // return convdataTime;
         return convdataTime
         
-    }
+	}
+	
 	componentDidMount(){
 
 		const { checkAuthAndReturnData } = this.context;
 
+		// if form id has wrong format
 		if (window.location.pathname.substr(6).length !== 24) {
-			console.log("Form length very short");
 			this.props.history.push("/pagenotfound");
 		}
 		
+		// checks auth and returns the single form requested for
 		checkAuthAndReturnData('SingleForm', window.location.pathname.substr(6))
 		.then((result)=>{
-			console.log("Data from server checkAuthAndReturnData() ");
-			console.log(result);
+
 			var convertedTime = this.convertUnix(result.time);
 			this.setState({
 				formName: result.formName,
@@ -137,8 +134,6 @@ class EditableForm extends Component {
 			errorToDisplay: ''
 		}, ()=>{
 			this.generateElements();
-			console.log(this.state.elements);
-			console.log("Element should be added");
 		});
 		
 	}
@@ -150,12 +145,12 @@ class EditableForm extends Component {
 			elements: updatedElementsList
 		}, ()=>{
 			this.generateElements();
-			// console.log(this.state.elements);
-			console.log("Element should be updated");
+
 		});
 		
 	}
 
+	// this method sends a request to the server to overwrite the old form and save the updated form
 	updateForm = () => {
 		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "" && this.state.elements.length !== 0) {
 			this.setState({
@@ -171,7 +166,6 @@ class EditableForm extends Component {
 				}
 			})
 			.then( (response)=> {
-				console.log(response.data);
 				if(response.data){
 					this.setState({
 						flashMsg: <p className="dashboard-flash-msg">Form Updated</p>
@@ -186,7 +180,6 @@ class EditableForm extends Component {
 				console.log("could not send data")
 			})
 		}else if(this.state.elements.length == 0){
-			console.log("Name field is empty")
 			this.setState({
 				errorToDisplay: <p className="error-msg">Please add at least one Form Element</p>
 			})
@@ -200,30 +193,24 @@ class EditableForm extends Component {
 	editElement = (e) =>{
 		var elementToEdit = this.state.elements[e.target.id];
 		var theDetailsPanel;
-		console.log(elementToEdit);
 		switch(elementToEdit.type) {
 			case "Single-line":
-				console.log("About to edit a single line element");
 				theDetailsPanel = <SingleLineInputDetails closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 			
 			case "Textarea":
-				console.log("Its textarea-input-btn");
 				theDetailsPanel = <TextareaInputDetails closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			case "Radio":
-				console.log("Its radio-input-btn");
 				theDetailsPanel = <RadioBtnDetailsPanel closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			case "Checkboxes":
-				console.log("Its checkbox-input-btn");
 				theDetailsPanel = <CheckboxesDetailsPanel closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			default:
-				console.log("No element");
 				return null;
 		}
 		this.setState({
@@ -240,10 +227,8 @@ class EditableForm extends Component {
 
 	deleteElement = (e) => {
 		var elementsToUpdate = this.state.elements;
-		console.log("delete index: " + e.target.id)
-		console.log(elementsToUpdate);
+
 		elementsToUpdate.splice(e.target.id, 1);
-		console.log(elementsToUpdate);
 		this.setState({
 			elements: elementsToUpdate
 		}, ()=>{
@@ -251,27 +236,18 @@ class EditableForm extends Component {
 		});
 	}
 
-	// hideFlashMsg = ()=>{
-	// 	setTimeout(()=>{
-	// 		document.querySelector(".dashboard-flash-msg").style.opacity = 0;
-
-	// 	}, 1000);
-	// 		setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
-	// }
 	hideFlashMsg = ()=>{
 		setTimeout(()=>{
 		  var flashMsg = document.querySelector(".dashboard-flash-msg");
 		  if (flashMsg) {
 			flashMsg.style.opacity = 0;
 		  }
-		  console.log("fading flash msg");
 		}, 1000);
 		setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
 	}
 
 	copyLink = (e) =>{
 		var formId = window.location.pathname.substr(6)
-		console.log("copy link for form: " + formId);
 		var textToCopy = "http://localhost:3000/form/" + formId;
 		if (window.getSelection) {window.getSelection().removeAllRanges();}
 		else if (document.selection) {document.selection.empty();}

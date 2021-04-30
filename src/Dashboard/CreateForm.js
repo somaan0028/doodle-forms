@@ -16,8 +16,10 @@ import AddFormElements from './AddFormElements';
 import { AuthContext } from '../Context/AuthContext';
 import loadingGif from '../loading_gif.gif'
 
+// this component is used on the 'create form' page. Allows users to add elements and save the form
 class CreateForm extends Component {
 
+	// use context
     static contextType = AuthContext;
 
 	state = {
@@ -29,32 +31,28 @@ class CreateForm extends Component {
 		displayData: false
     }
 
+	// generates a list of form elements from the 'elements' value in state. Then stores the new array in state
 	generateElements = () => {
 		var elements = this.state.elements;
 		var generatedElements = [];
 
 		generatedElements = elements.map((element, index)=>{
 			var elementType = element.type;
-			// var generatedElement;
+
 			switch(elementType) {
 				case "Single-line":
-					console.log("Its a single line element");
 					return <SingleLine question={element.question} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Textarea":
-					console.log("Its a single line element");
 					return <Textarea question={element.question} maxlength={element.maxlength} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Radio":
-					console.log("Its a Radio element");
 					return <RadioBtn question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				case "Checkboxes":
-					console.log("Its a Checkbox element");
 					return <Checkboxes question={element.question} values={element.values} id={index} key={index} editElement={this.editElement} deleteElement={this.deleteElement}/>;
 
 				default:
-					console.log("No element");
 					return null;
 			}
 		});
@@ -63,19 +61,19 @@ class CreateForm extends Component {
 		this.setState({
 			generatedElementsList: generatedElements
 		});
-		// console.log(generatedElements);
 	}
 	
 	componentDidMount(){
+		// checking whether user logged in. Only sets 'displayData' to 'true' when logged in.
 		const { checkAuthAndReturnData } = this.context;
         checkAuthAndReturnData().then(()=>{
-			console.log(this.state.elements);
 			this.setState({
 				displayData: true
 			})
 		});
 	}
 
+	// adds new elements and stores in the state
 	addElement = (element) => {
 		var updatedElementsList = [...this.state.elements, element]
 		this.setState({
@@ -83,12 +81,12 @@ class CreateForm extends Component {
 			errorToDisplay: ''
 		}, ()=>{
 			this.generateElements();
-			console.log(this.state.elements);
-			console.log("Element should be added");
+
 		});
 		
 	}
 
+	// updates a particular element in the 'elements' array in state
 	updateElement = (element, index) => {
 		var updatedElementsList = [...this.state.elements];
 		updatedElementsList[index] = element;
@@ -96,12 +94,13 @@ class CreateForm extends Component {
 			elements: updatedElementsList
 		}, ()=>{
 			this.generateElements();
-			// console.log(this.state.elements);
-			console.log("Element should be updated");
 		});
 	}
 
+	// to save the newly created form
 	saveForm = () => {
+
+		// only saves if the form name is not empty and there is atleast one element added
 		if (this.state.formName && !this.state.formName.replace(/\s/g,"") == "" && this.state.elements.length !== 0) {
 			this.setState({
 				errorToDisplay: ''
@@ -117,53 +116,51 @@ class CreateForm extends Component {
 				}
 			})
 			.then((response) => {
-				console.log(response.data.formID);
 				var redirectTo = "/edit/" + response.data.formID;
-				console.log("about to redirect")
 				this.props.history.push( redirectTo );
 			})
 			.catch((response) => {
-				console.log("could not send data to /saveform")
+				console.log("could not send data to /saveform");
 			})
 			
 		}else if(this.state.elements.length == 0){
+			// if no element added
 			this.setState({
 				errorToDisplay: <p className="error-msg">Please add at least one form Element</p>
 			})
 		}else{
+			// if no form name entered
 			this.setState({
 				errorToDisplay: <p className="error-msg">Please Enter a Name for the Form</p>
 			})
 		}
 	}
 
+	// shows the details panel again to edit the element
 	editElement = (e) =>{
+		// will show the elements previous details in the details panel which the user can then edit
 		var elementToEdit = this.state.elements[e.target.id];
 		var theDetailsPanel;
-		console.log(elementToEdit);
+
+		// showing the appropriate details element
 		switch(elementToEdit.type) {
 			case "Single-line":
-				console.log("About to edit a single line element");
 				theDetailsPanel = <SingleLineInputDetails closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 			
 			case "Textarea":
-				console.log("Its textarea-input-btn");
 				theDetailsPanel = <TextareaInputDetails closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			case "Radio":
-				console.log("Its radio-input-btn");
 				theDetailsPanel = <RadioBtnDetailsPanel closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			case "Checkboxes":
-				console.log("Its checkbox-input-btn");
 				theDetailsPanel = <CheckboxesDetailsPanel closeDetailsPanel={this.closeDetailsPanel} sendElement={(element, index)=>{this.updateElement(element, index)}} defaultValues={elementToEdit} elementIndex={e.target.id}/>;
 				break;
 
 			default:
-				console.log("No element");
 				return null;
 		}
 		this.setState({
@@ -171,6 +168,7 @@ class CreateForm extends Component {
 		})
 	}
 
+	// hides the details panel in which the user types the details of the element that is to be added
 	closeDetailsPanel = (e) => {
 		e.preventDefault();
 		this.setState({
@@ -178,12 +176,11 @@ class CreateForm extends Component {
 		})
 	}
 
+	// delets an element from the form by removing it from the 'elements' array in state
 	deleteElement = (e) => {
 		var elementsToUpdate = this.state.elements;
-		console.log("delete index: " + e.target.id)
-		console.log(elementsToUpdate);
+
 		elementsToUpdate.splice(e.target.id, 1);
-		console.log(elementsToUpdate);
 		this.setState({
 			elements: elementsToUpdate
 		}, ()=>{

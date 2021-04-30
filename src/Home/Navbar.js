@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import {NavLink, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './Navbar.css';
-// import './navbar_responsive.js';
 
 class Navbar extends Component {
 
     componentDidMount(){
         const burgerIcon=document.querySelector("#burger");
         const items = document.querySelectorAll(".item");
-        console.log("adding eventlisteners");
         burgerIcon.addEventListener('click', () => {
             items.forEach((item,index)=>{
             item.classList.toggle("active")
@@ -25,7 +23,6 @@ class Navbar extends Component {
 			url: '/logout',
         })
         .then((response)=>{
-            console.log(response);
             this.props.history.push("/");
         })
         .catch((err)=>{
@@ -34,8 +31,8 @@ class Navbar extends Component {
     }
 
     render(){
+        // shows the appropriate buttons depending upon whether logged in or not 
         if (this.props.isAuth) {
-            console.log("Show logged IN links in Navbar");
             return (
                 <nav>
                     <ul className="menu">
@@ -55,7 +52,6 @@ class Navbar extends Component {
                 </nav>
             );
         }else{
-            console.log("Show logged out links in Navbar");
             return (
                 <nav>
                     <ul className="menu">

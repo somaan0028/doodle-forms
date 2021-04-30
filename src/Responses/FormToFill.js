@@ -8,6 +8,7 @@ import Textarea from '../Form-Elements/Textarea';
 
 import loadingGif from '../loading_gif.gif'
 
+// this componenet is displayed when any normal person (not an account owner) fills a already created form. 
 class EditableForm extends Component {
 
 	state = {
@@ -17,32 +18,27 @@ class EditableForm extends Component {
 		displayData: false
 	}
 
+	// generates the list of form elements and stores in state
 	generateElements = () => {
 		var elements = this.state.elements;
 		var generatedElements = [];
 
 		generatedElements = elements.map((element, index)=>{
 			var elementType = element.type;
-			// var generatedElement;
 			switch(elementType) {
 				case "Single-line":
-					console.log("Its a single line element");
 					return <SingleLine question={element.question} id={index} key={index} />;
 
 				case "Textarea":
-					console.log("Its a single line element");
 					return <Textarea question={element.question} maxlength={element.maxlength} id={index} key={index} />;
 
 				case "Radio":
-					console.log("Its a Radio element");
 					return <RadioBtn question={element.question} values={element.values} id={index} key={index} />;
 
 				case "Checkboxes":
-					console.log("Its a Checkbox element");
 					return <Checkboxes question={element.question} values={element.values} id={index} key={index} />;
 
 				default:
-					console.log("No element");
 					return null;
 			}
 		});
@@ -55,10 +51,13 @@ class EditableForm extends Component {
 	
 	componentDidMount(){
 		var formToGet = window.location.pathname.substr(6);
+
+		// if invalid form id (less then 24 chars)
 		if (formToGet.length !== 24) {
-			console.log("Form length very short");
 			this.props.history.push("/pagenotfound");
 		}
+
+		// gets the form
 		axios({
 			method: 'post',
 			url: '/getform',
@@ -67,8 +66,7 @@ class EditableForm extends Component {
 			}
 		})
 		.then((response) => {
-			console.log("Response came from /getform POST request");
-			console.log(response);
+
 			if (response.data) {
 				this.setState({
 					formName: response.data.formName,
@@ -77,6 +75,7 @@ class EditableForm extends Component {
 				}, ()=>{this.generateElements()})
 				
 			}else{
+				// shows 404 error if no form of that id found
 				this.props.history.push("/pagenotfound");
 			}
 		})
@@ -90,15 +89,12 @@ class EditableForm extends Component {
         axios({
 			method: 'post',
 			url: '/submitform',
-			// data: {
-			// 	response: ,
-			// }
 		})
 		.then((response) => {
 			console.log("Form Submitted");
 		})
 		.catch((response) => {
-			console.log("could not submit form");
+			console.log("Could not submit form");
 		})
 	}
 

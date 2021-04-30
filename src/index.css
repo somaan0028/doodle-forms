@@ -59,14 +59,22 @@ Home
 .home-container .home{
   max-width: 100vw;
 }
+.home-container .home .home-color-panel{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("home-back-circles.png");
+  background-size: cover;
+  background-repeat: repeat;
+
+}
 .home-container .home-text-div{
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+
   margin: 50px auto 100px auto;
   width: 95%;
-  max-width: 800px;
+  max-width: 1000px;
   background-color: white;
   box-shadow: 0 0 50px #222222;
   padding: 35px;
@@ -79,7 +87,7 @@ Home
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.878);
+  background-color: rgba(255, 255, 255, 0.94);
   perspective: 1000px;
 }
 
@@ -135,7 +143,7 @@ Home
   border-radius: 10px;
   color: white;
   text-align: center;
-  transition: all 0.2s;
+  transition: all 0.1s;
   cursor: pointer;
   font-size: 16px;
   text-decoration: none;
@@ -145,7 +153,7 @@ Home
 }
 
 .home-container .home-text-div .home-btns:hover{
-  background-color: #2a6100;
+  background-color: #e13bff;
 }
 
 /* 
@@ -503,7 +511,7 @@ Responses
 =============================
 */
 .responses{
-  padding: 100px 0px 200px 0px;
+  padding: 100px 10px 200px 10px;
 }
 .responses .responses-heading{
   text-align: center;
@@ -529,7 +537,8 @@ Responses
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 0 20px;
+  margin: 0 auto;
+  max-width: 1000px;
 }
 .responses .form-detail{
   background-color: white;
@@ -545,8 +554,9 @@ Responses
   background-color: white;
   box-shadow: 0 0 20px #222222;
   padding: 30px;
-  margin: 20px;
+  margin: 20px auto;
   border-radius: 30px;
+  max-width: 1000px;
 }
 .single-response .single-response-element{
   width: fit-content;

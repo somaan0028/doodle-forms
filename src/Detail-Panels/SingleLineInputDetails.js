@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// this is displayed when the user wishes to add a 'single line' field in the form
 class SingleLineInputDetails extends Component {
 
   state = {
@@ -7,18 +8,19 @@ class SingleLineInputDetails extends Component {
     action: 'Add',
     emptyFieldError: ''
   }
+
   componentDidMount(){
+    // if default values sent in the props, it means user wishes to update an element
     if (this.props.defaultValues) {
-      console.log("Have Default Values");
-      console.log(this.props.defaultValues);
+
       this.setState({
         question: this.props.defaultValues.question,
         action: 'Done'
       })
-    }else{
-      console.log("Don't have default values")
     }
   }
+
+  // sends back the newly created form element using the "sendElement" function passed down through props
   createElement = (e) => {
     e.preventDefault();
     
@@ -26,15 +28,14 @@ class SingleLineInputDetails extends Component {
       type: "Single-line",
       question: this.state.question,
     }
+    // makes sure that some detail has been entered about the element
     if(element.question && !element.question.replace(/\s/g,"") == ""){
-      console.log("Create Element Ran");
       this.setState({
         emptyFieldError: ''
       });
       this.props.sendElement(element, e.target.id);
       this.props.closeDetailsPanel(e);
     }else{
-      console.log("Empty field");
       this.setState({
         emptyFieldError: 'Please enter a question'
       })
@@ -42,6 +43,7 @@ class SingleLineInputDetails extends Component {
     }
   }
 
+  // state updated whenever user types in the 'question' field for the creation of a new element
   handleQuestion = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -57,7 +59,6 @@ class SingleLineInputDetails extends Component {
               <p className="empty-field-error" >{this.state.emptyFieldError}</p>
               <div className="details-panel-btns">
                 <button onClick={this.createElement} id={this.props.elementIndex} >{this.state.action}</button>
-                {/* <input onSubmit={this.createElement} type="submit" value="Adddd" /> */}
                 <button onClick={this.props.closeDetailsPanel}>Cancel</button>
               </div>
           </form>

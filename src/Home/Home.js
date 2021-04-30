@@ -4,9 +4,11 @@ import Navbar from '../Home/Navbar.js';
 import axios from 'axios';
 import homeImg from '../home-pic.png';
 
+// home page
 class Home extends Component {
 
   componentDidMount(){
+    // redirects to dashboard if logged in
     axios.get('/authtest')
     .then((result)=>{
       if (result.data) {
@@ -20,11 +22,11 @@ class Home extends Component {
       <div className="home-container">
         <Navbar isAuth={false} />
         <div className="home">
+          <div className="home-color-panel"></div>
           <div className="home-text-div">
             <div>
               <h1>Doodle Forms</h1>
               <p>Sign Up today and start creating your Forms!</p>
-              {/* <p>Just Make an Account<br/>Create a Form<br/>Send the Link<br/>View the Responses!</p> */}
               <NavLink to="/signup" className="home-btns">Sign Up</NavLink>
               <NavLink to="/login" className="home-btns">Login</NavLink>
             </div>

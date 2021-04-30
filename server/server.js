@@ -87,7 +87,7 @@ app.post('/authtest', (req, res)=>{
                 })
                 // res.send(true);
             }else if(req.body.requiredData == 'AllResponses'){
-                Form.findOne({_id: req.body.formID}, {formName: 1, responses: 1, userID: 1})
+                Form.findOne({_id: req.body.formID}, {formName: 1, responses: 1, time:1, userID: 1})
                 .then((form)=>{
                     console.log("Got the from");
                     if (form.userID == req.user._id) {

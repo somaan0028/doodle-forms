@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
 
-
+// this component is used on the dashboard page. Each form's details in the list is displayed using this.
 class DashboardListItem extends Component {
     state = {
         time: ''
     }
     componentDidMount(){
-        this.convertUnix(this.props.form.time);
+        // converts the timestamp sent in the props and stores in state
+        var convdataTime = this.convertUnix(this.props.form.time);
+        this.setState({
+            time: convdataTime
+        })
     }
+    // converts unix timestamp to regular time
     convertUnix = (unixTime) =>{
         // Unixtimestamp
         var unixtimestamp = unixTime;
@@ -41,9 +46,7 @@ class DashboardListItem extends Component {
         var convdataTime = month+'-'+day+'-'+year+' '+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
         
         // return convdataTime;
-        this.setState({
-            time: convdataTime
-        })
+        return convdataTime;
         
     }
 
@@ -53,9 +56,7 @@ class DashboardListItem extends Component {
                 <div className="single-dashboard-list-item dashboard-list-item-name">
                     <p className="dashboard-formName">{this.props.form.formName}</p>
                     <NavLink className="dashboard-editing-btns" to={`/edit/${this.props.form._id}`}>Edit</NavLink>
-                    {/* | */}
                     <button className="dashboard-editing-btns" onClick={this.props.deleteForm} id={this.props.form._id}>Delete</button>
-                    {/* | */}
                     <button className="dashboard-editing-btns" onClick={this.props.copyLink} id={this.props.form._id}>Copy Link</button>
                 </div>
                 <p className="single-dashboard-list-item dashboard-list-item-date">{this.state.time}</p>

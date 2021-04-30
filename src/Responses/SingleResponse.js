@@ -1,11 +1,10 @@
 import React from 'react';
 
+// it is used on the responses page to display a single response
 const SingleResponse = ({response, index}) => {
-    console.log(response);
     var generatedResponse = [];
     for (var question in response) {
         if (response.hasOwnProperty(question)) {
-            console.log(question + " -> " + response[question]);
             if (Array.isArray(response[question])) {
                 var checkboxAnswers = []
                 response[question].forEach(checkboxAnswer => {
@@ -13,9 +12,8 @@ const SingleResponse = ({response, index}) => {
                     checkboxAnswers.push(answer);
                 });
 
-                // </div>
                 var toAppend = 
-                <div className="single-response-element">
+                <div  key={Math.floor((Math.random() * 10000000) + 1)} className="single-response-element">
                     <h3 className="response-question">{question}</h3>
                     <div>
                         {checkboxAnswers}
@@ -23,7 +21,7 @@ const SingleResponse = ({response, index}) => {
                 </div>
             }else{
                 var toAppend = 
-                <div className="single-response-element">
+                <div  key={Math.floor((Math.random() * 10000000) + 1)} className="single-response-element">
                     <h3 className="response-question">{question}</h3>
                     <p>{response[question]}</p>
                 </div>
@@ -32,7 +30,7 @@ const SingleResponse = ({response, index}) => {
         }
     }
   return (
-    <div className="single-response" key={index}>
+    <div key={index} className="single-response">
         <p className="response-number">{`Response No. ${index+1}`}</p>
         {generatedResponse}
     </div>

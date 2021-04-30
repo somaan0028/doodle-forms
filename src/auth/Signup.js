@@ -9,6 +9,7 @@ class Signup extends Component {
   }
 
   componentDidMount(){
+    // if user is authenticated, then redirect to dashboard
     axios.get('/authtest')
     .then((result)=>{
       if (result.data) {
@@ -17,6 +18,7 @@ class Signup extends Component {
     })
   }
 
+  // logs in as demo user
   demo_login = async (e) => {
 
     e.preventDefault();
@@ -30,13 +32,8 @@ class Signup extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       const data = await res.json();
-      console.log(data);
-      // if (data.errors) {
-      //   emailError.textContent = data.errors.email;
-      //   passwordError.textContent = data.errors.password;
-      // }
+
       if (data.user) {
-        // location.assign('/');
         this.props.history.push("/dashboard");
       }
 
@@ -46,6 +43,7 @@ class Signup extends Component {
     }
   }
 
+  // form submit
   handleSubmit = async (e) => {
     const form = document.querySelector('form');
     const emailError = document.querySelector('.email.error');
@@ -60,7 +58,6 @@ class Signup extends Component {
     // get values
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
 
     // prevents empty fields
     if (!email || !email.replace(/\s/g,"")) {
@@ -78,7 +75,6 @@ class Signup extends Component {
         headers: {'Content-Type': 'application/json'}
       });
       const data = await res.json();
-      console.log(data);
       if (data.errors) {
         emailError.textContent = data.errors.email;
         passwordError.textContent = data.errors.password;
@@ -91,7 +87,6 @@ class Signup extends Component {
     }
     catch (err) {
       console.log(err);
-      console.log("Req not made...")
     }
 
   }

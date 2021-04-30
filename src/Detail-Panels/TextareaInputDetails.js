@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// this is displayed when the user wishes to add a 'textarea' field in the form
 class TextareaInputDetails extends Component {
 
   state = {
@@ -10,19 +11,17 @@ class TextareaInputDetails extends Component {
   }
 
   componentDidMount(){
+    // if default values sent in the props, it means user wishes to update an element
     if (this.props.defaultValues) {
-      console.log("Have Default Values");
-      console.log(this.props.defaultValues);
+
       this.setState({
         question: this.props.defaultValues.question,
         maxlength: this.props.defaultValues.maxlength,
         action: 'Done'
       })
-    }else{
-      console.log("Don't have default values")
     }
   }
-
+  // sends back the newly created form element using the "sendElement" function passed down through props
   createElement = (e) => {
     e.preventDefault();
     
@@ -32,21 +31,20 @@ class TextareaInputDetails extends Component {
       maxlength: this.state.maxlength,
     }
     if(element.question && !element.question.replace(/\s/g,"") == ""){
-      console.log("Create Element Ran");
       this.setState({
         emptyFieldError: ''
       });
       this.props.sendElement(element, e.target.id);
       this.props.closeDetailsPanel(e);
     }else{
-      console.log("Empty field");
       this.setState({
         emptyFieldError: 'Please enter a question'
       })
       
     }
   }
-
+  
+  // state updated whenever user types in the 'question' field for the creation of a new element
   handleQuestion = (e) => {
     this.setState({
       [e.target.id]: e.target.value

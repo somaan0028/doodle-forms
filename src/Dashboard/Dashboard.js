@@ -20,10 +20,10 @@ class Dashboard extends Component {
   componentDidMount(){
     const { checkAuthAndReturnData } = this.context;
 
+    // checks auth and then gets all the form created by the user if logged in
     checkAuthAndReturnData('AllCreatedForms')
     .then((result)=>{
-      console.log("Logged In. Data Returned:")
-      console.log(result);
+
       this.setState({
         listOfForms: result,
         displayData: true,
@@ -35,14 +35,13 @@ class Dashboard extends Component {
     });
   }
 
+  // generates an array of form names and details that the user has created
   generateFormList = ()=>{
     var listOfForms = this.state.listOfForms;
     var generatedFormList = listOfForms.map((form)=>{
-      console.log(form);
       return <DashboardListItem form={form} deleteForm={this.deleteForm} copyLink={this.copyLink} key={form._id} />
     });
     if (generatedFormList.length == 0) {
-      console.log("No forms created yet!");
       generatedFormList = <div className="no-forms-to-show-div">
         <p>No Forms to show yet!<br/>Create one by clicking the button above.</p>
       </div>
@@ -52,19 +51,19 @@ class Dashboard extends Component {
     });
   }
   
+  // fades out the flash message e.g. "link copied" or "form deleted" e.t.c
   hideFlashMsg = ()=>{
     setTimeout(()=>{
       var flashMsg = document.querySelector(".dashboard-flash-msg");
       if (flashMsg) {
         flashMsg.style.opacity = 0;
       }
-      console.log("fading flash msg");
     }, 1000);
     setTimeout(()=>{this.setState({flashMsg: ''})}, 3000);
   }
 
+  // delets a form by sending a request to the server with that forms id. Server deletes it from the db
   deleteForm = (e) =>{
-    console.log("delete the form: " + e.target.id);
     axios({
       method: 'post',
       url: '/deleteform',
@@ -74,7 +73,6 @@ class Dashboard extends Component {
     })
     .then((response)=>{
       if (response.data) {
-        console.log("Form has been deleted");
         var formList = this.state.listOfForms;
         var newFormList = formList.filter((form)=>{
           return form._id !== e.target.id;
@@ -96,8 +94,8 @@ class Dashboard extends Component {
     })
   }
 
+  // when user clicks on the 'copy link' btn of a form. The invite link copied to clipboard
   copyLink = (e) =>{
-    console.log("copy link for form: " + e.target.id);
     var textToCopy = "http://localhost:3000/form/" + e.target.id;
     if (window.getSelection) {window.getSelection().removeAllRanges();}
     else if (document.selection) {document.selection.empty();}
@@ -110,12 +108,10 @@ class Dashboard extends Component {
     document.execCommand('copy');
     document.body.removeChild(el);
 
+    // to show the flach msg the "link copied"
     this.setState({
       flashMsg: <p className="dashboard-flash-msg">Link Copied!</p>
-    }, this.hideFlashMsg
-  )
-
-
+    }, this.hideFlashMsg)
   }
 
   render(){

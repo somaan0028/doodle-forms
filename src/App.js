@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import CreateForm from './Dashboard/CreateForm';
 import EditableForm from './Dashboard/EditableForm';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Navbar from './Home/Navbar.js';
 import Home from './Home/Home.js';
 import Signup from './auth/Signup.js';
 import Login from './auth/Login.js';
@@ -20,7 +19,6 @@ class App extends Component {
       <BrowserRouter>
         <AuthContextProvider>
           <div className="App">
-            {/* <Navbar isAuth={true} /> */}
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/signup' component={Signup} />
